@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome"
+        android:textColor="@color/colorAccent"
+        android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"
@@ -17,7 +19,7 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_google_sign_in"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@id/btn_sign_in_with_email"
@@ -26,7 +28,7 @@
 
     <Button
         android:id="@+id/btn_sign_in_with_email"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="Sign in with email"
@@ -36,7 +38,7 @@
 
     <Button
         android:id="@+id/btn_sign_in_with_facebook"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="Sign in with Facebook"

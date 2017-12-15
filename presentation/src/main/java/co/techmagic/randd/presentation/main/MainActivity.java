@@ -42,16 +42,22 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case R.id.iv_logout:
-                    AuthUI.getInstance()
-                            .signOut(MainActivity.this)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    startActivity(new Intent(MainActivity.this, AuthorizationActivity.class));
-                                    finish();
-                                }
-                            });
+                    signOut();
                     break;
             }
         }
     };
+
+    private void signOut() {
+        AuthUI.getInstance()
+                .signOut(MainActivity.this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            startActivity(new Intent(MainActivity.this, AuthorizationActivity.class));
+                            finish();
+                        }
+                    }
+                });
+    }
 }
