@@ -1,4 +1,4 @@
-package co.techmagic.aand.data.network.client;
+package co.techmagic.randd.data.network.client;
 
 import java.util.concurrent.TimeUnit;
 

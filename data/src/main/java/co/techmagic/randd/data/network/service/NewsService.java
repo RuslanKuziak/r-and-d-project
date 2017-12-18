@@ -1,4 +1,4 @@
-package co.techmagic.aand.data.network.service;
+package co.techmagic.randd.data.network.service;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;

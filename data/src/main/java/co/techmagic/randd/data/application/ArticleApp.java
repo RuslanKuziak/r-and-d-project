@@ -1,4 +1,4 @@
-package co.techmagic.aand.data.application;
+package co.techmagic.randd.data.application;
 
 /**
  * Created by ruslankuziak on 12/15/17.

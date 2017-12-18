@@ -1,4 +1,4 @@
-package co.techmagic.aand.data.network.entity;
+package co.techmagic.randd.data.network.entity;
 
 import com.google.gson.annotations.SerializedName;
 
