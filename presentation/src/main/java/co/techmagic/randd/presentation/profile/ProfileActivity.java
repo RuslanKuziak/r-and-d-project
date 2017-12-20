@@ -3,12 +3,12 @@ package co.techmagic.randd.presentation.profile;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import co.techmagic.randd.R;
+import co.techmagic.randd.presentation.BaseActivity;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ProfileActivity.class));

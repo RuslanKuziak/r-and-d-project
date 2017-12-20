@@ -2,8 +2,8 @@ package co.techmagic.randd.data.network.client;
 
 import java.util.concurrent.TimeUnit;
 
-import co.techmagic.aand.data.BuildConfig;
-import co.techmagic.aand.data.network.service.NewsService;
+import co.techmagic.randd.data.network.service.NewsRepository;
+import co.techmagic.randd.data.network.service.UserRepository;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -15,26 +15,37 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static ApiClient client;
+    private static final String HOST_URl = "https://newsapi.org";
+    private static ApiClient apiClient;
+    private static Retrofit retrofit;
 
     private ApiClient() {
         OkHttpClient client = buildClient();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.HOST_URL)
+        retrofit = new Retrofit.Builder()
+                .baseUrl(HOST_URl)
                 .client(client)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        retrofit.create(NewsService.class);
     }
 
-    public static synchronized ApiClient getInstance() {
-        if (client == null) {
-            client = new ApiClient();
+    public static void init() {
+        if (apiClient == null) {
+            apiClient = new ApiClient();
         }
+    }
 
-        return client;
+    public static void release() {
+        apiClient = null;
+        retrofit = null;
+    }
+
+    public static UserRepository getUserRepository() {
+        return retrofit.create(UserRepository.class);
+    }
+
+    public static NewsRepository getNewsRepository() {
+        return retrofit.create(NewsRepository.class);
     }
 
     private OkHttpClient buildClient() {

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ruslankuziak on 12/15/17.
  */
 
-public class Article {
+public class ArticleInfo {
 
     @SerializedName("author")
     private String author;

@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
 
-    flavorDimensions "data"
+    /*flavorDimensions "data"
     defaultPublishConfig "productionRelease"
     publishNonDefault true
 
@@ -22,7 +22,7 @@ android {
         production {
 
         }
-    }
+    }*/
 
     buildTypes {
         release {
@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //compile project(path: ':data')
-    implementation "com.android.support:appcompat-v7:26.1.0"
+    implementation project(':data')
+
+    implementation "com.android.support:appcompat-v7:27.0.2"
 }

@@ -2,16 +2,16 @@ package co.techmagic.randd.presentation.splash;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import co.techmagic.randd.R;
+import co.techmagic.randd.presentation.BaseActivity;
 import co.techmagic.randd.presentation.auth.AuthorizationActivity;
 import co.techmagic.randd.presentation.main.MainActivity;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

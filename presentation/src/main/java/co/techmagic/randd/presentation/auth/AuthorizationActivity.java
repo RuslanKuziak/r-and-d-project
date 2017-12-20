@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
@@ -16,13 +15,14 @@ import com.firebase.ui.auth.IdpResponse;
 import java.util.Arrays;
 
 import co.techmagic.randd.R;
+import co.techmagic.randd.presentation.BaseActivity;
 import co.techmagic.randd.presentation.main.MainActivity;
 
 /**
  * Created by ruslankuziak on 12/14/17.
  */
 
-public class AuthorizationActivity extends AppCompatActivity {
+public class AuthorizationActivity extends BaseActivity {
 
     private static final int RC_GOOGLE_SIGN_IN = 1001;
     private static final int RC_EMAIL_SIGN_IN = 1002;
