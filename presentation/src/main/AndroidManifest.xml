@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".presentation.splash.SplashActivity"
+            android:name=".presentation.ui.splash.SplashActivity"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,15 +23,15 @@
         </activity>
 
         <activity
-            android:name=".presentation.BaseActivity"
+            android:name=".presentation.ui.base.BaseActivity"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
-            android:name=".presentation.profile.ProfileActivity"
+            android:name=".presentation.ui.profile.ProfileActivity"
             android:theme="@style/AppThemeActionBar" />
 
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name=".presentation.ui.main.MainActivity"
             android:theme="@style/AppThemeNoActionBar" />
 
         <meta-data
@@ -39,8 +39,16 @@
             android:value="@string/facebook_application_id" />
 
         <activity
-            android:name=".presentation.auth.AuthorizationActivity"
+            android:name=".presentation.ui.base.auth.AuthorizationActivity"
             android:theme="@style/AppThemeNoActionBar" />
+
+        <receiver
+            android:name=".presentation.broadcast.ConnectivityBroadcastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

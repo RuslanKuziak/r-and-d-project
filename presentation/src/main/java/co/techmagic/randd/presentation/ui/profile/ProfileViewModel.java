@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.profile;
+package co.techmagic.randd.presentation.ui.profile;
 
 import android.arch.lifecycle.ViewModel;
 

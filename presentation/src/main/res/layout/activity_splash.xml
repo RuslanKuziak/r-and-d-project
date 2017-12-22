@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="co.techmagic.randd.presentation.splash.SplashActivity">
+    tools:context="co.techmagic.randd.presentation.ui.splash.SplashActivity">
 
     <ImageView
         android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package co.techmagic.randd.data.network.service;
+package co.techmagic.randd.data.network.repository;
 
 import co.techmagic.randd.data.network.entity.LoginResponse;
 import co.techmagic.randd.data.network.request.LoginRequest;

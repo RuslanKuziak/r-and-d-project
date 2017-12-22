@@ -1,11 +1,10 @@
-package co.techmagic.randd.presentation.auth;
+package co.techmagic.randd.presentation.ui.base.auth;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.firebase.ui.auth.AuthUI;
@@ -15,20 +14,18 @@ import com.firebase.ui.auth.IdpResponse;
 import java.util.Arrays;
 
 import co.techmagic.randd.R;
-import co.techmagic.randd.presentation.BaseActivity;
-import co.techmagic.randd.presentation.main.MainActivity;
+import co.techmagic.randd.presentation.ui.base.BaseActivity;
+import co.techmagic.randd.presentation.ui.main.MainActivity;
 
 /**
  * Created by ruslankuziak on 12/14/17.
  */
 
-public class AuthorizationActivity extends BaseActivity {
+public class AuthorizationActivity extends BaseActivity<Void> {
 
     private static final int RC_GOOGLE_SIGN_IN = 1001;
     private static final int RC_EMAIL_SIGN_IN = 1002;
     private static final int RC_FACEBOOK_SIGN_IN = 1003;
-
-    private View rootView;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, AuthorizationActivity.class));
@@ -39,10 +36,12 @@ public class AuthorizationActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
-        findViewById(R.id.btn_google_sign_in).setOnClickListener(onClickListener);
-        findViewById(R.id.btn_sign_in_with_email).setOnClickListener(onClickListener);
-        findViewById(R.id.btn_sign_in_with_facebook).setOnClickListener(onClickListener);
-        rootView = findViewById(R.id.constraint_layout);
+        initUi();
+    }
+
+    @Override
+    protected Void initViewModel() {
+        return null;
     }
 
     @Override
@@ -60,17 +59,12 @@ public class AuthorizationActivity extends BaseActivity {
             }
         } else {
             if (response == null) {
-                showSnackMessage("Cancelled");
+                showSnackMessage(findViewById(R.id.constraint_layout), "Cancelled", Color.WHITE);
                 return;
             }
 
             if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-                showSnackMessage("No Internet connection");
-                return;
-            }
-
-            if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                showSnackMessage("Unknown Error");
+                showSnackMessage(findViewById(R.id.constraint_layout), "No Internet connection", Color.WHITE);
                 return;
             }
         }
@@ -98,8 +92,10 @@ public class AuthorizationActivity extends BaseActivity {
                 RC_FACEBOOK_SIGN_IN);
     }
 
-    private void showSnackMessage(@NonNull String message) {
-        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
+    private void initUi() {
+        findViewById(R.id.btn_google_sign_in).setOnClickListener(onClickListener);
+        findViewById(R.id.btn_sign_in_with_email).setOnClickListener(onClickListener);
+        findViewById(R.id.btn_sign_in_with_facebook).setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {

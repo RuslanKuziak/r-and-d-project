@@ -2,8 +2,8 @@ package co.techmagic.randd.data.network.client;
 
 import java.util.concurrent.TimeUnit;
 
-import co.techmagic.randd.data.network.service.NewsRepository;
-import co.techmagic.randd.data.network.service.UserRepository;
+import co.techmagic.randd.data.network.repository.NewsRepository;
+import co.techmagic.randd.data.network.repository.UserRepository;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;

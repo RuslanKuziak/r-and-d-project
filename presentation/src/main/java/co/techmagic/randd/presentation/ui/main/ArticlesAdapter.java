@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.main;
+package co.techmagic.randd.presentation.ui.main;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -62,7 +62,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         TextView tvTitle;
         TextView tvDesc;
 
-        public ArticlesViewsHolder(View itemView) {
+        ArticlesViewsHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_photo);
             tvTitle = itemView.findViewById(R.id.tv_title);

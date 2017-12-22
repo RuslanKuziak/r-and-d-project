@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.splash;
+package co.techmagic.randd.presentation.ui.splash;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,11 +7,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import co.techmagic.randd.R;
-import co.techmagic.randd.presentation.BaseActivity;
-import co.techmagic.randd.presentation.auth.AuthorizationActivity;
-import co.techmagic.randd.presentation.main.MainActivity;
+import co.techmagic.randd.presentation.ui.base.BaseActivity;
+import co.techmagic.randd.presentation.ui.base.auth.AuthorizationActivity;
+import co.techmagic.randd.presentation.ui.main.MainActivity;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity<Void> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,11 @@ public class SplashActivity extends BaseActivity {
                 handleNavigation();
             }
         }, 2000);
+    }
+
+    @Override
+    protected Void initViewModel() {
+        return null;
     }
 
     private void handleNavigation() {
