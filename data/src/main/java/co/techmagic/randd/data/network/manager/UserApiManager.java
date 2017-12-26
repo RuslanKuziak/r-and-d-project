@@ -4,11 +4,10 @@ import co.techmagic.randd.data.application.UserApp;
 import co.techmagic.randd.data.network.UserApi;
 import co.techmagic.randd.data.network.client.ApiClient;
 import co.techmagic.randd.data.network.entity.LoginResponse;
-import co.techmagic.randd.data.network.exception.NoNetworkException;
-import co.techmagic.randd.data.network.request.LoginRequest;
 import co.techmagic.randd.data.network.repository.UserRepository;
-import rx.Observable;
-import rx.functions.Func1;
+import co.techmagic.randd.data.network.request.LoginRequest;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Created by ruslankuziak on 12/19/17.
@@ -17,27 +16,21 @@ import rx.functions.Func1;
 public class UserApiManager extends BaseManager implements UserApi {
 
     private UserRepository repository;
-    private NetworkManager networkManager;
 
     public UserApiManager() {
         repository = ApiClient.getUserRepository();
-        networkManager = NetworkManager.get();
     }
 
     @Override
     public Observable<UserApp> logIn(LoginRequest request) {
-        if (networkManager.isNetworkAvailable()) {
-            return repository.login(request)
-                    .map(new Func1<LoginResponse, UserApp>() {
-                        @Override
-                        public UserApp call(LoginResponse loginResponse) {
-                            UserApp user = mapUser(loginResponse);
-                            return user;
-                        }
-                    });
-        }
-
-        return Observable.error(new NoNetworkException());
+        return repository.login(request)
+                .map(new Function<LoginResponse, UserApp>() {
+                    @Override
+                    public UserApp apply(LoginResponse loginResponse) throws Exception {
+                        UserApp userApp = mapUser(loginResponse);
+                        return userApp;
+                    }
+                });
     }
 
     private UserApp mapUser(LoginResponse loginResponse) {

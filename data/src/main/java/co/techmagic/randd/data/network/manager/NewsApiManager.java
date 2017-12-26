@@ -10,10 +10,9 @@ import co.techmagic.randd.data.network.NewsApi;
 import co.techmagic.randd.data.network.client.ApiClient;
 import co.techmagic.randd.data.network.entity.ArticleInfo;
 import co.techmagic.randd.data.network.entity.ArticleResponse;
-import co.techmagic.randd.data.network.exception.NoNetworkException;
 import co.techmagic.randd.data.network.repository.NewsRepository;
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Created by ruslankuziak on 12/19/17.
@@ -22,27 +21,21 @@ import rx.functions.Func1;
 public class NewsApiManager extends BaseManager implements NewsApi {
 
     private NewsRepository repository;
-    private NetworkManager networkManager;
 
     public NewsApiManager() {
         repository = ApiClient.getNewsRepository();
-        networkManager = NetworkManager.get();
     }
 
     @Override
     public Observable<List<ArticleApp>> getTopHeadlines(String sources, String apiKey) {
-        if (networkManager.isNetworkAvailable()) {
-            return repository.getTopHeadlines(sources, apiKey)
-                    .map(new Func1<ArticleResponse, List<ArticleApp>>() {
-                        @Override
-                        public List<ArticleApp> call(ArticleResponse articleResponse) {
-                            List<ArticleApp> articles = mapArticles(articleResponse);
-                            return articles;
-                        }
-                    });
-        }
-
-        return Observable.error(new NoNetworkException());
+        return repository.getTopHeadlines(sources, apiKey)
+                .map(new Function<ArticleResponse, List<ArticleApp>>() {
+                    @Override
+                    public List<ArticleApp> apply(ArticleResponse articleResponse) throws Exception {
+                        List articles = mapArticles(articleResponse);
+                        return articles;
+                    }
+                });
     }
 
     private List<ArticleApp> mapArticles(ArticleResponse articleResponse) {

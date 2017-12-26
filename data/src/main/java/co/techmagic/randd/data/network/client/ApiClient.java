@@ -1,12 +1,13 @@
 package co.techmagic.randd.data.network.client;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import java.util.concurrent.TimeUnit;
 
 import co.techmagic.randd.data.network.repository.NewsRepository;
 import co.techmagic.randd.data.network.repository.UserRepository;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -24,7 +25,7 @@ public class ApiClient {
         retrofit = new Retrofit.Builder()
                 .baseUrl(HOST_URl)
                 .client(client)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

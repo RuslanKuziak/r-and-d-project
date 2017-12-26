@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import co.techmagic.randd.data.network.manager.NetworkManager;
+import co.techmagic.randd.domain.NetworkManager;
 
 /**
  * Created by ruslankuziak on 12/21/17.

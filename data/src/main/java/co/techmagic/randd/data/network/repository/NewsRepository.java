@@ -1,9 +1,9 @@
 package co.techmagic.randd.data.network.repository;
 
 import co.techmagic.randd.data.network.entity.ArticleResponse;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by ruslankuziak on 12/15/17.

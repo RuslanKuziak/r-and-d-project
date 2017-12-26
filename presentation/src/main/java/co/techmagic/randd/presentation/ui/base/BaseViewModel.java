@@ -3,7 +3,7 @@ package co.techmagic.randd.presentation.ui.base;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import co.techmagic.randd.domain.NetworkErrors;
+import co.techmagic.randd.data.network.NetworkErrors;
 
 /**
  * Created by ruslankuziak on 12/21/17.

@@ -1,10 +1,8 @@
-package co.techmagic.randd.data.network.manager;
+package co.techmagic.randd.domain;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import co.techmagic.randd.data.network.NetworkListener;
 
 /**
  * Created by ruslankuziak on 12/22/17.

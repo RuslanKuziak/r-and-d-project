@@ -5,7 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import co.techmagic.randd.data.network.client.ApiClient;
-import co.techmagic.randd.data.network.manager.NetworkManager;
+import co.techmagic.randd.domain.NetworkManager;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 
 /**

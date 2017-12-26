@@ -2,7 +2,7 @@ package co.techmagic.randd.data.network;
 
 import co.techmagic.randd.data.application.UserApp;
 import co.techmagic.randd.data.network.request.LoginRequest;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by ruslankuziak on 12/19/17.

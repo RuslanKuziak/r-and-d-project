@@ -1,4 +1,4 @@
-package co.techmagic.randd.data.network;
+package co.techmagic.randd.domain;
 
 /**
  * Created by ruslankuziak on 12/22/17.

@@ -23,14 +23,13 @@ import java.util.List;
 
 import co.techmagic.randd.R;
 import co.techmagic.randd.data.application.ArticleApp;
-import co.techmagic.randd.domain.NetworkErrors;
-import co.techmagic.randd.presentation.RandDApplication;
+import co.techmagic.randd.data.network.NetworkErrors;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 import co.techmagic.randd.presentation.ui.base.BaseActivity;
 import co.techmagic.randd.presentation.ui.base.auth.AuthorizationActivity;
 import co.techmagic.randd.presentation.ui.profile.ProfileActivity;
 
-public class MainActivity extends BaseActivity<MainViewModel> implements ConnectivityBroadcastReceiver.ConnectivityReceiverListener {
+public class MainActivity extends BaseActivity<MainViewModel> {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
@@ -46,7 +45,6 @@ public class MainActivity extends BaseActivity<MainViewModel> implements Connect
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RandDApplication.getInstance().setConnectivityListener(this);
         mainViewModel = initViewModel();
         initUi();
     }
@@ -62,6 +60,7 @@ public class MainActivity extends BaseActivity<MainViewModel> implements Connect
 
     @Override
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
+        super.onNetworkConnectionChanged(connectionState);
         handleConnectivityStates(connectionState);
     }
 

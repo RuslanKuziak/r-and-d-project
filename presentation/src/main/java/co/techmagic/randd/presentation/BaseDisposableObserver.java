@@ -5,29 +5,27 @@ import android.arch.lifecycle.MutableLiveData;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 
+import co.techmagic.randd.data.network.NetworkErrors;
 import co.techmagic.randd.data.network.exception.NoNetworkException;
-import co.techmagic.randd.domain.NetworkErrors;
+import io.reactivex.observers.DisposableObserver;
 import retrofit2.HttpException;
-import rx.Subscriber;
 
 /**
- * Created by ruslankuziak on 12/20/17.
+ * Created by ruslankuziak on 12/26/17.
  */
 
-public class BaseSubscriber<RESPONSE> extends Subscriber<RESPONSE> {
+public class BaseDisposableObserver<RESPONSE> extends DisposableObserver<RESPONSE> {
 
     private MutableLiveData<NetworkErrors> errorsLiveData = null;
 
-    public BaseSubscriber() {
+    public BaseDisposableObserver() {}
 
-    }
-
-    public BaseSubscriber(MutableLiveData<NetworkErrors> errorsLiveData) {
+    public BaseDisposableObserver(MutableLiveData<NetworkErrors> errorsLiveData) {
         this.errorsLiveData = errorsLiveData;
     }
 
     @Override
-    public void onCompleted() {
+    public void onNext(RESPONSE response) {
 
     }
 
@@ -46,7 +44,7 @@ public class BaseSubscriber<RESPONSE> extends Subscriber<RESPONSE> {
     }
 
     @Override
-    public void onNext(RESPONSE response) {
+    public void onComplete() {
 
     }
 

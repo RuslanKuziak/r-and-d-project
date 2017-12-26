@@ -7,8 +7,8 @@ import java.util.List;
 import co.techmagic.randd.data.application.ArticleApp;
 import co.techmagic.randd.data.network.manager.NewsApiManager;
 import co.techmagic.randd.data.network.request.GetTopHeadlinesRequest;
-import co.techmagic.randd.domain.interactor.news.NewsInteractor;
-import co.techmagic.randd.presentation.BaseSubscriber;
+import co.techmagic.randd.domain.interactor.news.NewsRequestInteractor;
+import co.techmagic.randd.presentation.BaseDisposableObserver;
 import co.techmagic.randd.presentation.ui.base.BaseViewModel;
 
 /**
@@ -17,18 +17,18 @@ import co.techmagic.randd.presentation.ui.base.BaseViewModel;
 
 public class MainViewModel extends BaseViewModel {
 
-    private NewsInteractor newsInteractor;
+    private NewsRequestInteractor newsInteractor;
     MutableLiveData<List<ArticleApp>> articles = new MutableLiveData<>();
 
     public MainViewModel() {
-        newsInteractor = new NewsInteractor(new NewsApiManager());
+        newsInteractor = new NewsRequestInteractor(new NewsApiManager());
         getTopHeadlines();
     }
 
     public void getTopHeadlines() {
         showProgress();
         GetTopHeadlinesRequest request = new GetTopHeadlinesRequest("google-news", "bb64160866274f01a1588d25512fba09");
-        newsInteractor.execute(request, new BaseSubscriber<List<ArticleApp>>(networkErrorLiveData) {
+        newsInteractor.execute(request, new BaseDisposableObserver<List<ArticleApp>>(networkErrorLiveData) {
             @Override
             public void onNext(List<ArticleApp> articleApps) {
                 super.onNext(articleApps);
