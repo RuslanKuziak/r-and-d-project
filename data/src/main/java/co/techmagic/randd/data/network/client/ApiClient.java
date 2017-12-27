@@ -30,7 +30,7 @@ public class ApiClient {
                 .build();
     }
 
-    public static void init() {
+    public static synchronized void init() {
         if (apiClient == null) {
             apiClient = new ApiClient();
         }

@@ -5,9 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import co.techmagic.randd.R;
 import co.techmagic.randd.presentation.RandDApplication;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 
@@ -19,6 +24,8 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
 
     protected abstract VIEWMODEL initViewModel();
 
+    protected abstract boolean withToolbar();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +34,33 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
     }
 
     @Override
+    public void setContentView(int layoutResID) {
+        LayoutInflater inflater = getLayoutInflater();
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_base, null);
+        inflater.inflate(layoutResID, rootView, true);
+        FrameLayout activityContainer =  rootView.findViewById(R.id.base_container);
+        inflater.inflate(layoutResID, activityContainer, true);
+        super.setContentView(rootView);
+
+        Toolbar toolbar = getToolbar();
+
+        if (toolbar != null) {
+            if (withToolbar()) {
+                setSupportActionBar(toolbar);
+                toolbar.setVisibility(View.VISIBLE);
+            } else {
+                toolbar.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
 
+    }
+
+    protected Toolbar getToolbar() {
+        return findViewById(R.id.toolbar);
     }
 
     protected void showSnackMessage(@NonNull View rootView, @NonNull String message, int color) {

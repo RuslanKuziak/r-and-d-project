@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import co.techmagic.randd.data.local.SharedPreferencesUtil;
 import co.techmagic.randd.data.network.client.ApiClient;
 import co.techmagic.randd.domain.NetworkManager;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
@@ -22,6 +23,7 @@ public class RandDApplication extends Application {
         super.onCreate();
 
         instance = this;
+        SharedPreferencesUtil.init(this);
         NetworkManager.init(this);
         ApiClient.init();
 
@@ -61,7 +63,7 @@ public class RandDApplication extends Application {
                 activeActivitiesCount--;
                 if (activeActivitiesCount == 0 && !activity.isChangingConfigurations()) {
                     activeActivitiesCount = 0;
-                    ApiClient.release();
+                   // ApiClient.release();
                 }
             }
         });

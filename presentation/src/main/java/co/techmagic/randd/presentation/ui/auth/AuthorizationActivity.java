@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.ui.base.auth;
+package co.techmagic.randd.presentation.ui.auth;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import com.firebase.ui.auth.IdpResponse;
 import java.util.Arrays;
 
 import co.techmagic.randd.R;
+import co.techmagic.randd.presentation.ui.articles.ListArticlesActivity;
 import co.techmagic.randd.presentation.ui.base.BaseActivity;
-import co.techmagic.randd.presentation.ui.main.MainActivity;
 
 /**
  * Created by ruslankuziak on 12/14/17.
@@ -45,6 +45,11 @@ public class AuthorizationActivity extends BaseActivity<Void> {
     }
 
     @Override
+    protected boolean withToolbar() {
+        return false;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -55,7 +60,7 @@ public class AuthorizationActivity extends BaseActivity<Void> {
                 case RC_GOOGLE_SIGN_IN:
                 case RC_EMAIL_SIGN_IN:
                 case RC_FACEBOOK_SIGN_IN:
-                    MainActivity.start(this);
+                    ListArticlesActivity.start(this);
             }
         } else {
             if (response == null) {

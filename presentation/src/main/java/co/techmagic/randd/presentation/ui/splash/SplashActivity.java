@@ -7,9 +7,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import co.techmagic.randd.R;
+import co.techmagic.randd.presentation.ui.auth.AuthorizationActivity;
+import co.techmagic.randd.presentation.ui.articles.ListArticlesActivity;
 import co.techmagic.randd.presentation.ui.base.BaseActivity;
-import co.techmagic.randd.presentation.ui.base.auth.AuthorizationActivity;
-import co.techmagic.randd.presentation.ui.main.MainActivity;
 
 public class SplashActivity extends BaseActivity<Void> {
 
@@ -30,12 +30,17 @@ public class SplashActivity extends BaseActivity<Void> {
         return null;
     }
 
+    @Override
+    protected boolean withToolbar() {
+        return false;
+    }
+
     private void handleNavigation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             AuthorizationActivity.start(this);
         } else {
-            MainActivity.start(this);
+            ListArticlesActivity.start(this);
         }
     }
 }

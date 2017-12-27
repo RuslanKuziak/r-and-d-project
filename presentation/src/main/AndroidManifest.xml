@@ -27,20 +27,20 @@
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
-            android:name=".presentation.ui.profile.ProfileActivity"
-            android:theme="@style/AppThemeActionBar" />
+            android:name=".presentation.ui.auth.AuthorizationActivity"
+            android:theme="@style/AppThemeNoActionBar" />
 
         <activity
-            android:name=".presentation.ui.main.MainActivity"
+            android:name=".presentation.ui.articles.ListArticlesActivity"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
+            android:name=".presentation.ui.profile.ProfileActivity"
             android:theme="@style/AppThemeNoActionBar" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_application_id" />
-
-        <activity
-            android:name=".presentation.ui.base.auth.AuthorizationActivity"
-            android:theme="@style/AppThemeNoActionBar" />
 
         <receiver
             android:name=".presentation.broadcast.ConnectivityBroadcastReceiver"

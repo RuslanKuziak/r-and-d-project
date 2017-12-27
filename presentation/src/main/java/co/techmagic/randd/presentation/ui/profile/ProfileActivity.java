@@ -1,8 +1,10 @@
 package co.techmagic.randd.presentation.ui.profile;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import co.techmagic.randd.R;
@@ -18,12 +20,18 @@ public class ProfileActivity extends BaseActivity<ProfileViewModel> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initUi();
     }
 
     @Override
     protected ProfileViewModel initViewModel() {
-        return null;
+        ProfileViewModel viewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        return viewModel;
+    }
+
+    @Override
+    protected boolean withToolbar() {
+        return true;
     }
 
     @Override
@@ -35,6 +43,13 @@ public class ProfileActivity extends BaseActivity<ProfileViewModel> {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void initUi() {
+        Toolbar toolbar = getToolbar();
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         }
     }
 }

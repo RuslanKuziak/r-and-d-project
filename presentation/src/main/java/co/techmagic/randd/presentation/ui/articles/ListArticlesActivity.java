@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.ui.main;
+package co.techmagic.randd.presentation.ui.articles;
 
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,37 +24,42 @@ import co.techmagic.randd.R;
 import co.techmagic.randd.data.application.ArticleApp;
 import co.techmagic.randd.data.network.NetworkErrors;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
+import co.techmagic.randd.presentation.ui.auth.AuthorizationActivity;
 import co.techmagic.randd.presentation.ui.base.BaseActivity;
-import co.techmagic.randd.presentation.ui.base.auth.AuthorizationActivity;
 import co.techmagic.randd.presentation.ui.profile.ProfileActivity;
 
-public class MainActivity extends BaseActivity<MainViewModel> {
+public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
 
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private ArticlesAdapter adapter;
-    private MainViewModel mainViewModel;
+    private ArticlesViewModel articlesViewModel;
 
     public static void start(Activity activity) {
-        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.startActivity(new Intent(activity, ListArticlesActivity.class));
         activity.finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mainViewModel = initViewModel();
+        setContentView(R.layout.activity_articles);
+        articlesViewModel = initViewModel();
         initUi();
     }
 
     @Override
-    protected MainViewModel initViewModel() {
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+    protected ArticlesViewModel initViewModel() {
+        ArticlesViewModel viewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
         viewModel.articles.observe(this, articlesObserver);
         viewModel.progressLiveData.observe(this, progressObserver);
         viewModel.networkErrorLiveData.observe(this, networkErrorsObserver);
         return viewModel;
+    }
+
+    @Override
+    protected boolean withToolbar() {
+        return true;
     }
 
     @Override
@@ -68,7 +72,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         switch (connectionState) {
             case CONNECTED:
                 showSnackMessage(findViewById(R.id.root_view),"Connected to the network", Color.WHITE);
-                mainViewModel.getTopHeadlines();
+                articlesViewModel.getTopHeadlines();
                 break;
 
             case NO_CONNECTION:
@@ -79,11 +83,11 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     private void signOut() {
         AuthUI.getInstance()
-                .signOut(MainActivity.this)
+                .signOut(ListArticlesActivity.this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            AuthorizationActivity.start(MainActivity.this);
+                            AuthorizationActivity.start(ListArticlesActivity.this);
                             finish();
                         }
                     }
@@ -91,17 +95,21 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     }
 
     private void initUi() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        TextView tvTitle = findViewById(R.id.tv_title);
-        tvTitle.setText(getString(R.string.app_name));
+        Toolbar toolbar = getToolbar();
+        if (toolbar != null) {
+            View ivProfile = toolbar.findViewById(R.id.iv_profile);
+            View ivLogout = toolbar.findViewById(R.id.iv_logout);
+            ivProfile.setOnClickListener(onClickListener);
+            ivLogout.setOnClickListener(onClickListener);
+            ivProfile.setVisibility(View.VISIBLE);
+            ivLogout.setVisibility(View.VISIBLE);
+        }
+
         progressBar = findViewById(R.id.articles_progress_bar);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new ArticlesAdapter();
         recyclerView.setAdapter(adapter);
-        findViewById(R.id.iv_profile).setOnClickListener(onClickListener);
-        findViewById(R.id.iv_logout).setOnClickListener(onClickListener);
     }
 
     private Observer<List<ArticleApp>> articlesObserver = new Observer<List<ArticleApp>>() {
@@ -114,7 +122,9 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     private Observer<Boolean> progressObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(@Nullable Boolean show) {
-            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            if (show != null) {
+                progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            }
         }
     };
 
@@ -124,7 +134,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             if (networkError != null) {
                 switch (networkError) {
                     case UNAUTHORIZED:
-                        AuthorizationActivity.start(MainActivity.this);
+                        AuthorizationActivity.start(ListArticlesActivity.this);
                         finish();
                         break;
 
@@ -144,7 +154,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.iv_profile:
-                    ProfileActivity.start(MainActivity.this);
+                    ProfileActivity.start(ListArticlesActivity.this);
                     break;
 
                 case R.id.iv_logout:

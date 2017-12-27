@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.ui.main;
+package co.techmagic.randd.presentation.ui.articles;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;

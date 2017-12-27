@@ -1,4 +1,4 @@
-package co.techmagic.randd.presentation.ui.main;
+package co.techmagic.randd.presentation.ui.articles;
 
 import android.arch.lifecycle.MutableLiveData;
 
@@ -15,12 +15,12 @@ import co.techmagic.randd.presentation.ui.base.BaseViewModel;
  * Created by ruslankuziak on 12/14/17.
  */
 
-public class MainViewModel extends BaseViewModel {
+public class ArticlesViewModel extends BaseViewModel {
 
     private NewsRequestInteractor newsInteractor;
     MutableLiveData<List<ArticleApp>> articles = new MutableLiveData<>();
 
-    public MainViewModel() {
+    public ArticlesViewModel() {
         newsInteractor = new NewsRequestInteractor(new NewsApiManager());
         getTopHeadlines();
     }
