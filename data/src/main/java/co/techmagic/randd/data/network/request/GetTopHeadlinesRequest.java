@@ -7,18 +7,12 @@ package co.techmagic.randd.data.network.request;
 public class GetTopHeadlinesRequest extends BaseRequest {
 
     private String source;
-    private String apiKey;
 
-    public GetTopHeadlinesRequest(String source, String apiKey) {
+    public GetTopHeadlinesRequest(String source) {
         this.source = source;
-        this.apiKey = apiKey;
     }
 
     public String getSource() {
         return source;
-    }
-
-    public String getApiKey() {
-        return apiKey;
     }
 }

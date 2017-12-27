@@ -1,6 +1,6 @@
 package co.techmagic.randd.domain.interactor;
 
-import co.techmagic.randd.data.network.manager.BaseManager;
+import co.techmagic.randd.data.repository.BaseRepository;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -8,10 +8,10 @@ import io.reactivex.observers.DisposableObserver;
  * Created by ruslankuziak on 12/26/17.
  */
 
-public abstract class BaseInteractor<RESPONSE, MANAGER extends BaseManager> extends BaseRequestInteractor<Void, RESPONSE, MANAGER> {
+public abstract class BaseInteractor<RESPONSE, REPOSITORY extends BaseRepository> extends BaseRequestInteractor<Void, RESPONSE, REPOSITORY> {
 
-    public BaseInteractor(MANAGER manager) {
-        super(manager);
+    public BaseInteractor(REPOSITORY repository) {
+        super(repository);
     }
 
     protected abstract Observable<RESPONSE> buildObservable();

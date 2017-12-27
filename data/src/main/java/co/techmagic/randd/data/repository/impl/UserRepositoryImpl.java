@@ -1,11 +1,12 @@
-package co.techmagic.randd.data.network.manager;
+package co.techmagic.randd.data.repository.impl;
 
 import co.techmagic.randd.data.application.UserApp;
-import co.techmagic.randd.data.network.UserApi;
 import co.techmagic.randd.data.network.client.ApiClient;
 import co.techmagic.randd.data.network.entity.LoginResponse;
-import co.techmagic.randd.data.network.repository.UserRepository;
 import co.techmagic.randd.data.network.request.LoginRequest;
+import co.techmagic.randd.data.network.service.UserService;
+import co.techmagic.randd.data.repository.BaseRepository;
+import co.techmagic.randd.data.repository.UserRepository;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -13,11 +14,11 @@ import io.reactivex.functions.Function;
  * Created by ruslankuziak on 12/19/17.
  */
 
-public class UserApiManager extends BaseManager implements UserApi {
+public class UserRepositoryImpl extends BaseRepository implements UserRepository {
 
-    private UserRepository repository;
+    private UserService repository;
 
-    public UserApiManager() {
+    public UserRepositoryImpl() {
         repository = ApiClient.getUserRepository();
     }
 

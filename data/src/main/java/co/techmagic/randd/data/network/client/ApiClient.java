@@ -4,8 +4,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
-import co.techmagic.randd.data.network.repository.NewsRepository;
-import co.techmagic.randd.data.network.repository.UserRepository;
+import co.techmagic.randd.data.network.service.NewsService;
+import co.techmagic.randd.data.network.service.UserService;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,12 +41,12 @@ public class ApiClient {
         retrofit = null;
     }
 
-    public static UserRepository getUserRepository() {
-        return retrofit.create(UserRepository.class);
+    public static UserService getUserRepository() {
+        return retrofit.create(UserService.class);
     }
 
-    public static NewsRepository getNewsRepository() {
-        return retrofit.create(NewsRepository.class);
+    public static NewsService getNewsRepository() {
+        return retrofit.create(NewsService.class);
     }
 
     private OkHttpClient buildClient() {

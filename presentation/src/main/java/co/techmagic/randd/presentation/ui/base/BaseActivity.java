@@ -1,5 +1,6 @@
 package co.techmagic.randd.presentation.ui.base;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,7 +39,7 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
         LayoutInflater inflater = getLayoutInflater();
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_base, null);
         inflater.inflate(layoutResID, rootView, true);
-        FrameLayout activityContainer =  rootView.findViewById(R.id.base_container);
+        FrameLayout activityContainer = rootView.findViewById(R.id.base_container);
         inflater.inflate(layoutResID, activityContainer, true);
         super.setContentView(rootView);
 
@@ -56,7 +57,7 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
 
     @Override
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
-
+        handleConnectivityStates(connectionState);
     }
 
     protected Toolbar getToolbar() {
@@ -69,5 +70,17 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
         TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(color);
         snackbar.show();
+    }
+
+    private void handleConnectivityStates(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
+        switch (connectionState) {
+            case CONNECTED:
+                showSnackMessage(findViewById(R.id.base_container), "Connected to the network", Color.WHITE);
+                break;
+
+            case NO_CONNECTION:
+                showSnackMessage(findViewById(R.id.base_container), "Connection error", Color.RED);
+                break;
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -65,19 +66,8 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
     @Override
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
         super.onNetworkConnectionChanged(connectionState);
-        handleConnectivityStates(connectionState);
-    }
-
-    private void handleConnectivityStates(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
-        switch (connectionState) {
-            case CONNECTED:
-                showSnackMessage(findViewById(R.id.root_view),"Connected to the network", Color.WHITE);
-                articlesViewModel.getTopHeadlines();
-                break;
-
-            case NO_CONNECTION:
-                showSnackMessage(findViewById(R.id.root_view),"Connection error", Color.RED);
-                break;
+        if (connectionState == ConnectivityBroadcastReceiver.ConnectionStates.CONNECTED) {
+            articlesViewModel.getTopHeadlines();
         }
     }
 
@@ -97,8 +87,10 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
     private void initUi() {
         Toolbar toolbar = getToolbar();
         if (toolbar != null) {
+            TextView tvTitle = toolbar.findViewById(R.id.tv_title);
             View ivProfile = toolbar.findViewById(R.id.iv_profile);
             View ivLogout = toolbar.findViewById(R.id.iv_logout);
+            tvTitle.setText(getString(R.string.app_name));
             ivProfile.setOnClickListener(onClickListener);
             ivLogout.setOnClickListener(onClickListener);
             ivProfile.setVisibility(View.VISIBLE);
