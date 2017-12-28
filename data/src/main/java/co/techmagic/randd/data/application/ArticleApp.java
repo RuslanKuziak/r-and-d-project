@@ -1,27 +1,72 @@
 package co.techmagic.randd.data.application;
 
 /**
- * Created by ruslankuziak on 12/19/17.
+ * Created by ruslankuziak on 12/15/17.
  */
 
 public class ArticleApp {
 
-    private SourceApp sourceApp;
-    private ArticleInfoApp articleInfoApp;
+    private String author;
+    private String title;
+    private String description;
+    private String url;
+    private String urlToImage;
+    private String date;
+    private SourceApp source;
 
-    public SourceApp getSourceApp() {
-        return sourceApp;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setSourceApp(SourceApp sourceApp) {
-        this.sourceApp = sourceApp;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public ArticleInfoApp getArticleInfoApp() {
-        return articleInfoApp;
+    public String getTitle() {
+        return title;
     }
 
-    public void setArticleInfoApp(ArticleInfoApp articleInfoApp) {
-        this.articleInfoApp = articleInfoApp;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrlToImage() {
+        return urlToImage;
+    }
+
+    public void setUrlToImage(String urlToImage) {
+        this.urlToImage = urlToImage;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public SourceApp getSource() {
+        return source;
+    }
+
+    public void setSource(SourceApp source) {
+        this.source = source;
     }
 }

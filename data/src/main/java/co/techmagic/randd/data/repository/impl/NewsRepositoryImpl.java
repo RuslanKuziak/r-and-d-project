@@ -42,7 +42,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                 .map(new Function<ArticleResponse, List<ArticleApp>>() {
                     @Override
                     public List<ArticleApp> apply(ArticleResponse articleResponse) {
-                        List articles = mapper.mapArticles(articleResponse);
+                        List articles = mapper.mapArticleResponseEntities(articleResponse);
                         return articles;
                     }
                 });
@@ -54,7 +54,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                 .map(new Function<ArticleResponse, List<ArticleApp>>() {
                     @Override
                     public List<ArticleApp> apply(ArticleResponse articleResponse) {
-                        List articles = mapper.mapArticles(articleResponse);
+                        List articles = mapper.mapArticleResponseEntities(articleResponse);
                         return articles;
                     }
                 });
@@ -68,7 +68,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                 try {
                     List<ArticleEntity> entities = dbManager.getArticles();
 
-                    emitter.onNext(mapper.mapArticles(entities));
+                    emitter.onNext(mapper.mapArticleDbEntities(entities));
                     emitter.onComplete();
                 } catch (SQLException exception) {
                     emitter.onError(new DataException());
@@ -84,7 +84,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
         Observable<Void> saveNewArticles = Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
             public void subscribe(ObservableEmitter<Void> emitter) {
-                List<ArticleEntity> entities = mapper.mapEntities(articles);
+                List<ArticleEntity> entities = mapper.mapAppEntities(articles);
                 try {
                     dbManager.insertArticles(entities);
                     emitter.onComplete();

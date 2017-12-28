@@ -24,14 +24,16 @@ public class ArticlesViewModel extends BaseViewModel {
 
     private TopHeadlinesInteractor newsInteractor;
     private EverythingInRangeInteractor inRangeInteractor;
-    private InsertArticlesDbInteractor insertArticlesDbInteractor; // TODO move to repository
+    private InsertArticlesDbInteractor insertArticlesDbInteractor;
     private GetArticlesDbInteractor getArticlesDbInteractor;
+
     MutableLiveData<List<ArticleApp>> articles = new MutableLiveData<>();
 
     public ArticlesViewModel() {
         final NewsRepositoryImpl repository = new NewsRepositoryImpl();
         newsInteractor = new TopHeadlinesInteractor(repository);
         inRangeInteractor = new EverythingInRangeInteractor(repository);
+        // TODO move to repository
         insertArticlesDbInteractor = new InsertArticlesDbInteractor(repository);
         getArticlesDbInteractor = new GetArticlesDbInteractor(repository);
         getEverythingInRange();
@@ -110,6 +112,8 @@ public class ArticlesViewModel extends BaseViewModel {
     protected void onCleared() {
         newsInteractor.dispose();
         inRangeInteractor.dispose();
+        insertArticlesDbInteractor.dispose();
+        getArticlesDbInteractor.dispose();
         super.onCleared();
     }
 }

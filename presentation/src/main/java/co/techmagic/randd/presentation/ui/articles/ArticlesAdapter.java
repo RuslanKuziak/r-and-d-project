@@ -15,7 +15,6 @@ import java.util.List;
 
 import co.techmagic.randd.R;
 import co.techmagic.randd.data.application.ArticleApp;
-import co.techmagic.randd.data.application.ArticleInfoApp;
 
 /**
  * Created by ruslankuziak on 12/20/17.
@@ -33,7 +32,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
     @Override
     public void onBindViewHolder(ArticlesViewsHolder holder, int position) {
-        final ArticleInfoApp item = articles.get(position).getArticleInfoApp();
+        final ArticleApp item = articles.get(position);
         holder.tvTitle.setText(item.getTitle());
         holder.tvDesc.setText(item.getDescription());
 

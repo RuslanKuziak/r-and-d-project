@@ -1,8 +1,8 @@
 package co.techmagic.randd.data.db.entity;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import co.techmagic.randd.data.application.SourceApp;
@@ -17,8 +17,8 @@ public class ArticleEntity {
     @PrimaryKey(autoGenerate = true)
     private int uid;
 
-    @Ignore
-    private SourceApp sourceApp; // TODO
+    @Embedded
+    private SourceApp sourceApp;
 
     @ColumnInfo(name = "author")
     private String author;
