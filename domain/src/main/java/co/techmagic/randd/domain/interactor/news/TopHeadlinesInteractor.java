@@ -6,14 +6,14 @@ import co.techmagic.randd.data.application.ArticleApp;
 import co.techmagic.randd.data.network.exception.NoNetworkException;
 import co.techmagic.randd.data.network.request.GetTopHeadlinesRequest;
 import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
-import co.techmagic.randd.domain.interactor.BaseRequestInteractor;
+import co.techmagic.randd.domain.interactor.BaseDataInteractor;
 import io.reactivex.Observable;
 
 /**
  * Created by ruslankuziak on 12/19/17.
  */
 
-public class TopHeadlinesInteractor extends BaseRequestInteractor<GetTopHeadlinesRequest, List<ArticleApp>, NewsRepositoryImpl> {
+public class TopHeadlinesInteractor extends BaseDataInteractor<GetTopHeadlinesRequest, List<ArticleApp>, NewsRepositoryImpl> {
 
     public TopHeadlinesInteractor(NewsRepositoryImpl newsApiManager) {
         super(newsApiManager);

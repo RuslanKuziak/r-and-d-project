@@ -41,11 +41,11 @@ public class ApiClient {
         retrofit = null;
     }
 
-    public static UserService getUserRepository() {
+    public static UserService getUserService() {
         return retrofit.create(UserService.class);
     }
 
-    public static NewsService getNewsRepository() {
+    public static NewsService getNewsService() {
         return retrofit.create(NewsService.class);
     }
 

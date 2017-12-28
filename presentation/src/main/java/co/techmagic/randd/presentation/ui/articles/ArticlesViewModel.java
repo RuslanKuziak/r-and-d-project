@@ -1,6 +1,7 @@
 package co.techmagic.randd.presentation.ui.articles;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import java.util.List;
 
@@ -9,6 +10,8 @@ import co.techmagic.randd.data.network.request.EverythingInRangeRequest;
 import co.techmagic.randd.data.network.request.GetTopHeadlinesRequest;
 import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
 import co.techmagic.randd.domain.interactor.news.EverythingInRangeInteractor;
+import co.techmagic.randd.domain.interactor.news.GetArticlesDbInteractor;
+import co.techmagic.randd.domain.interactor.news.InsertArticlesDbInteractor;
 import co.techmagic.randd.domain.interactor.news.TopHeadlinesInteractor;
 import co.techmagic.randd.presentation.BaseDisposableObserver;
 import co.techmagic.randd.presentation.ui.base.BaseViewModel;
@@ -21,12 +24,16 @@ public class ArticlesViewModel extends BaseViewModel {
 
     private TopHeadlinesInteractor newsInteractor;
     private EverythingInRangeInteractor inRangeInteractor;
+    private InsertArticlesDbInteractor insertArticlesDbInteractor; // TODO move to repository
+    private GetArticlesDbInteractor getArticlesDbInteractor;
     MutableLiveData<List<ArticleApp>> articles = new MutableLiveData<>();
 
     public ArticlesViewModel() {
-        final NewsRepositoryImpl apiManager = new NewsRepositoryImpl();
-        newsInteractor = new TopHeadlinesInteractor(apiManager);
-        inRangeInteractor = new EverythingInRangeInteractor(apiManager);
+        final NewsRepositoryImpl repository = new NewsRepositoryImpl();
+        newsInteractor = new TopHeadlinesInteractor(repository);
+        inRangeInteractor = new EverythingInRangeInteractor(repository);
+        insertArticlesDbInteractor = new InsertArticlesDbInteractor(repository);
+        getArticlesDbInteractor = new GetArticlesDbInteractor(repository);
         getEverythingInRange();
     }
 
@@ -58,6 +65,7 @@ public class ArticlesViewModel extends BaseViewModel {
                 super.onNext(articleApps);
                 hideProgress();
                 articles.postValue(articleApps);
+                cacheArticles(articleApps);
             }
 
             @Override
@@ -68,9 +76,40 @@ public class ArticlesViewModel extends BaseViewModel {
         });
     }
 
+    // TODO perform cache articles in repository
+    public void cacheArticles(List<ArticleApp> articleApps) {
+        insertArticlesDbInteractor.execute(articleApps, new BaseDisposableObserver<Void>() {
+            @Override
+            public void onError(Throwable e) {
+                Log.i("ArticlesViewModel", "Error occurred while caching articles");
+            }
+
+            @Override
+            public void onComplete() {
+                Log.i("ArticlesViewModel", "Caching completed successfully");
+            }
+        });
+    }
+
+    public void getCachedArticles() {
+        getArticlesDbInteractor.execute(new BaseDisposableObserver<List<ArticleApp>>() {
+            @Override
+            public void onNext(List<ArticleApp> articleApps) {
+                super.onNext(articleApps);
+                articles.postValue(articleApps);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+    }
+
     @Override
     protected void onCleared() {
-        newsInteractor.unsubscribe();
+        newsInteractor.dispose();
+        inRangeInteractor.dispose();
         super.onCleared();
     }
 }

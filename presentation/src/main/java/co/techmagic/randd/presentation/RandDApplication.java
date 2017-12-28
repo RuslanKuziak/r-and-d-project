@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import co.techmagic.randd.data.local.SharedPreferencesUtil;
+import co.techmagic.randd.data.db.AppDatabase;
+import co.techmagic.randd.data.network.NetworkManager;
 import co.techmagic.randd.data.network.client.ApiClient;
-import co.techmagic.randd.domain.NetworkManager;
+import co.techmagic.randd.data.util.SharedPreferencesUtil;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 
 /**
@@ -23,6 +24,7 @@ public class RandDApplication extends Application {
         super.onCreate();
 
         instance = this;
+        AppDatabase.getAppDatabase(this);
         SharedPreferencesUtil.init(this);
         NetworkManager.init(this);
         ApiClient.init();

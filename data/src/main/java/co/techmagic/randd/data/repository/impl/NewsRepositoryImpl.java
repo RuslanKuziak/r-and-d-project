@@ -1,18 +1,22 @@
 package co.techmagic.randd.data.repository.impl;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
+import co.techmagic.randd.data.Mapper;
 import co.techmagic.randd.data.application.ArticleApp;
-import co.techmagic.randd.data.application.ArticleInfoApp;
-import co.techmagic.randd.data.application.SourceApp;
+import co.techmagic.randd.data.db.DataException;
+import co.techmagic.randd.data.db.entity.ArticleEntity;
+import co.techmagic.randd.data.db.manager.DbManager;
+import co.techmagic.randd.data.db.manager.DbManagerImpl;
 import co.techmagic.randd.data.network.client.ApiClient;
-import co.techmagic.randd.data.network.entity.ArticleInfo;
 import co.techmagic.randd.data.network.entity.ArticleResponse;
 import co.techmagic.randd.data.network.service.NewsService;
 import co.techmagic.randd.data.repository.BaseRepository;
 import co.techmagic.randd.data.repository.NewsRepository;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Function;
 
 /**
@@ -22,19 +26,23 @@ import io.reactivex.functions.Function;
 public class NewsRepositoryImpl extends BaseRepository implements NewsRepository {
 
     private static final String API_KEY = "bb64160866274f01a1588d25512fba09";
-    private NewsService repository;
+    private NewsService service;
+    private DbManager dbManager;
+    private Mapper mapper;
 
     public NewsRepositoryImpl() {
-        repository = ApiClient.getNewsRepository();
+        service = ApiClient.getNewsService();
+        dbManager = new DbManagerImpl();
+        mapper = new Mapper();
     }
 
     @Override
     public Observable<List<ArticleApp>> getTopHeadlines(String sources) {
-        return repository.getTopHeadlines(sources, API_KEY)
+        return service.getTopHeadlines(sources, API_KEY)
                 .map(new Function<ArticleResponse, List<ArticleApp>>() {
                     @Override
-                    public List<ArticleApp> apply(ArticleResponse articleResponse) throws Exception {
-                        List articles = mapArticles(articleResponse);
+                    public List<ArticleApp> apply(ArticleResponse articleResponse) {
+                        List articles = mapper.mapArticles(articleResponse);
                         return articles;
                     }
                 });
@@ -42,45 +50,65 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
 
     @Override
     public Observable<List<ArticleApp>> getEverythingInRange(String query, String from, String to) {
-        return repository.getEverythingInRange(query, from, to, API_KEY)
+        return service.getEverythingInRange(query, from, to, API_KEY)
                 .map(new Function<ArticleResponse, List<ArticleApp>>() {
                     @Override
-                    public List<ArticleApp> apply(ArticleResponse articleResponse) throws Exception {
-                        List articles = mapArticles(articleResponse);
+                    public List<ArticleApp> apply(ArticleResponse articleResponse) {
+                        List articles = mapper.mapArticles(articleResponse);
                         return articles;
                     }
                 });
     }
 
-    private List<ArticleApp> mapArticles(ArticleResponse articleResponse) {
-        List<ArticleApp> articles = new ArrayList<>();
-        List<ArticleInfo> articleInfos = articleResponse.getArticleInfos();
-        if (articleInfos != null) {
-            for (ArticleInfo info : articleInfos) {
-                ArticleApp articleApp = new ArticleApp();
-                articleApp.setSourceApp(mapSource(info));
-                articleApp.setArticleInfoApp(mapArticleInfo(info));
-                articles.add(articleApp);
+    @Override
+    public Observable<List<ArticleApp>> getEverythingInRangeFromDb() {
+        return Observable.create(new ObservableOnSubscribe<List<ArticleApp>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<ArticleApp>> emitter) {
+                try {
+                    List<ArticleEntity> entities = dbManager.getArticles();
+
+                    emitter.onNext(mapper.mapArticles(entities));
+                    emitter.onComplete();
+                } catch (SQLException exception) {
+                    emitter.onError(new DataException());
+                }
             }
-        }
-        return articles;
+        });
     }
 
-    private SourceApp mapSource(ArticleInfo info) {
-        SourceApp sourceApp = new SourceApp();
-        sourceApp.setId(info.getSource().getId());
-        sourceApp.setName(info.getSource().getName());
-        return sourceApp;
+    @Override
+    public Observable<Void> saveEverythingInRangeToDb(final List<ArticleApp> articles) {
+        Observable<Void> deletePrevArticles = deleteAllArticles();
+
+        Observable<Void> saveNewArticles = Observable.create(new ObservableOnSubscribe<Void>() {
+            @Override
+            public void subscribe(ObservableEmitter<Void> emitter) {
+                List<ArticleEntity> entities = mapper.mapEntities(articles);
+                try {
+                    dbManager.insertArticles(entities);
+                    emitter.onComplete();
+                } catch (SQLException exception) {
+                    emitter.onError(new DataException());
+                }
+            }
+        });
+
+        return Observable.concat(deletePrevArticles, saveNewArticles);
     }
 
-    private ArticleInfoApp mapArticleInfo(ArticleInfo info) {
-        ArticleInfoApp articleInfoApp = new ArticleInfoApp();
-        articleInfoApp.setAuthor(info.getAuthor());
-        articleInfoApp.setDate(info.getDate());
-        articleInfoApp.setDescription(info.getDescription());
-        articleInfoApp.setTitle(info.getTitle());
-        articleInfoApp.setUrl(info.getUrl());
-        articleInfoApp.setUrlToImage(info.getUrlToImage());
-        return articleInfoApp;
+    @Override
+    public Observable<Void> deleteAllArticles() {
+        return Observable.create(new ObservableOnSubscribe<Void>() {
+            @Override
+            public void subscribe(ObservableEmitter<Void> emitter) {
+                try {
+                    dbManager.deleteAllFromTable();
+                    emitter.onComplete();
+                } catch (SQLException exception) {
+                    emitter.onError(new DataException());
+                }
+            }
+        });
     }
 }

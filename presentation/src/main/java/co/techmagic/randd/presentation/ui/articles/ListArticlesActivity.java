@@ -32,6 +32,7 @@ import co.techmagic.randd.presentation.ui.profile.ProfileActivity;
 public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
 
     private ProgressBar progressBar;
+    private TextView tvNoArticles;
     private RecyclerView recyclerView;
     private ArticlesAdapter adapter;
     private ArticlesViewModel articlesViewModel;
@@ -67,7 +68,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
         super.onNetworkConnectionChanged(connectionState);
         if (connectionState == ConnectivityBroadcastReceiver.ConnectionStates.CONNECTED) {
-            articlesViewModel.getTopHeadlines();
+            articlesViewModel.getEverythingInRange();
         }
     }
 
@@ -97,6 +98,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
             ivLogout.setVisibility(View.VISIBLE);
         }
 
+        tvNoArticles = findViewById(R.id.tv_no_articles);
         progressBar = findViewById(R.id.articles_progress_bar);
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -108,6 +110,11 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
         @Override
         public void onChanged(@Nullable List<ArticleApp> articleApps) {
             adapter.refresh(articleApps);
+            if (articleApps == null || articleApps.isEmpty()) {
+                tvNoArticles.setVisibility(View.VISIBLE);
+            } else {
+                tvNoArticles.setVisibility(View.GONE);
+            }
         }
     };
 
@@ -135,6 +142,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
 
                     case CONNECTION_ERROR:
                         showSnackMessage(findViewById(R.id.root_view),"Connection error", Color.RED);
+                        articlesViewModel.getCachedArticles();
                         break;
                 }
             }

@@ -4,14 +4,14 @@ import co.techmagic.randd.data.application.UserApp;
 import co.techmagic.randd.data.network.exception.NoNetworkException;
 import co.techmagic.randd.data.network.request.LoginRequest;
 import co.techmagic.randd.data.repository.impl.UserRepositoryImpl;
-import co.techmagic.randd.domain.interactor.BaseRequestInteractor;
+import co.techmagic.randd.domain.interactor.BaseDataInteractor;
 import io.reactivex.Observable;
 
 /**
  * Created by ruslankuziak on 12/19/17.
  */
 
-public class LoginRequestInteractor extends BaseRequestInteractor<LoginRequest, UserApp, UserRepositoryImpl> {
+public class LoginRequestInteractor extends BaseDataInteractor<LoginRequest, UserApp, UserRepositoryImpl> {
 
     public LoginRequestInteractor(UserRepositoryImpl userApiManager) {
         super(userApiManager);

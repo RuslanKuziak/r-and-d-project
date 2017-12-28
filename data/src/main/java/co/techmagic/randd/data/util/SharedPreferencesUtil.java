@@ -1,4 +1,4 @@
-package co.techmagic.randd.data.local;
+package co.techmagic.randd.data.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

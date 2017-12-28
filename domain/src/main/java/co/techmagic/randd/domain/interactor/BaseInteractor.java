@@ -8,7 +8,7 @@ import io.reactivex.observers.DisposableObserver;
  * Created by ruslankuziak on 12/26/17.
  */
 
-public abstract class BaseInteractor<RESPONSE, REPOSITORY extends BaseRepository> extends BaseRequestInteractor<Void, RESPONSE, REPOSITORY> {
+public abstract class BaseInteractor<RESPONSE, REPOSITORY extends BaseRepository> extends BaseDataInteractor<Void, RESPONSE, REPOSITORY> {
 
     public BaseInteractor(REPOSITORY repository) {
         super(repository);

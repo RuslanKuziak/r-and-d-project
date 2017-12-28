@@ -19,7 +19,7 @@ public class UserRepositoryImpl extends BaseRepository implements UserRepository
     private UserService repository;
 
     public UserRepositoryImpl() {
-        repository = ApiClient.getUserRepository();
+        repository = ApiClient.getUserService();
     }
 
     @Override

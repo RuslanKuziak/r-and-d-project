@@ -14,4 +14,10 @@ public interface NewsRepository {
     Observable<List<ArticleApp>> getTopHeadlines(String sources);
 
     Observable<List<ArticleApp>> getEverythingInRange(String query, String from, String to);
+    
+    Observable<List<ArticleApp>> getEverythingInRangeFromDb();
+
+    Observable<Void> saveEverythingInRangeToDb(List<ArticleApp> articles);
+
+    Observable<Void> deleteAllArticles();
 }

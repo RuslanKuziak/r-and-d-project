@@ -1,4 +1,4 @@
-package co.techmagic.randd.domain;
+package co.techmagic.randd.data.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -74,6 +74,9 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-auth:11.4.2' // do not remove to avoid weird issue with dex conflict
     implementation 'com.facebook.android:facebook-login:[4,5)'
+
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'
