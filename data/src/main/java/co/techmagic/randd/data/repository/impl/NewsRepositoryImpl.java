@@ -1,5 +1,7 @@
 package co.techmagic.randd.data.repository.impl;
 
+import android.util.Log;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -55,6 +57,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                     @Override
                     public List<ArticleApp> apply(ArticleResponse articleResponse) {
                         List articles = mapper.mapArticleResponseEntities(articleResponse);
+                        saveEverythingInRangeToDb(articles);
                         return articles;
                     }
                 });
@@ -90,6 +93,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                     emitter.onComplete();
                 } catch (SQLException exception) {
                     emitter.onError(new DataException());
+                    Log.e("NewsRepositoryImpl", "Error occurred while caching articles");
                 }
             }
         });

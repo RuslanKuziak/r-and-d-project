@@ -33,7 +33,6 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
 
     private ProgressBar progressBar;
     private TextView tvNoArticles;
-    private RecyclerView recyclerView;
     private ArticlesAdapter adapter;
     private ArticlesViewModel articlesViewModel;
 
@@ -100,7 +99,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
 
         tvNoArticles = findViewById(R.id.tv_no_articles);
         progressBar = findViewById(R.id.articles_progress_bar);
-        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new ArticlesAdapter();
         recyclerView.setAdapter(adapter);
