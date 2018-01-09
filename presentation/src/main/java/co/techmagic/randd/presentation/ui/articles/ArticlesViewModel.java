@@ -9,7 +9,7 @@ import co.techmagic.randd.data.network.request.EverythingInRangeRequest;
 import co.techmagic.randd.data.network.request.GetTopHeadlinesRequest;
 import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
 import co.techmagic.randd.domain.interactor.news.EverythingInRangeInteractor;
-import co.techmagic.randd.domain.interactor.news.GetArticlesDbInteractor;
+import co.techmagic.randd.domain.interactor.news.GetCachedArticlesInteractor;
 import co.techmagic.randd.domain.interactor.news.TopHeadlinesInteractor;
 import co.techmagic.randd.presentation.BaseDisposableObserver;
 import co.techmagic.randd.presentation.ui.base.BaseViewModel;
@@ -22,7 +22,7 @@ public class ArticlesViewModel extends BaseViewModel {
 
     private TopHeadlinesInteractor newsInteractor;
     private EverythingInRangeInteractor inRangeInteractor;
-    private GetArticlesDbInteractor getArticlesDbInteractor;
+    private GetCachedArticlesInteractor getArticlesDbInteractor;
 
     MutableLiveData<List<ArticleApp>> articles = new MutableLiveData<>();
 
@@ -30,7 +30,7 @@ public class ArticlesViewModel extends BaseViewModel {
         final NewsRepositoryImpl repository = new NewsRepositoryImpl();
         newsInteractor = new TopHeadlinesInteractor(repository);
         inRangeInteractor = new EverythingInRangeInteractor(repository);
-        getArticlesDbInteractor = new GetArticlesDbInteractor(repository);
+        getArticlesDbInteractor = new GetCachedArticlesInteractor(repository);
         getEverythingInRange();
     }
 

@@ -15,7 +15,7 @@ public interface NewsRepository {
 
     Observable<List<ArticleApp>> getEverythingInRange(String query, String from, String to);
     
-    Observable<List<ArticleApp>> getEverythingInRangeFromDb();
+    Observable<List<ArticleApp>> getCachedArticles();
 
     Observable<Void> saveEverythingInRangeToDb(List<ArticleApp> articles);
 

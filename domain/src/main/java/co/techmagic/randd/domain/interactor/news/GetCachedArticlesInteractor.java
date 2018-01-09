@@ -11,14 +11,14 @@ import io.reactivex.Observable;
  * Created by ruslankuziak on 12/28/17.
  */
 
-public class GetArticlesDbInteractor extends BaseInteractor<List<ArticleApp>, NewsRepositoryImpl> {
+public class GetCachedArticlesInteractor extends BaseInteractor<List<ArticleApp>, NewsRepositoryImpl> {
 
-    public GetArticlesDbInteractor(NewsRepositoryImpl repository) {
+    public GetCachedArticlesInteractor(NewsRepositoryImpl repository) {
         super(repository);
     }
 
     @Override
     protected Observable<List<ArticleApp>> buildObservable() {
-        return repository.getEverythingInRangeFromDb();
+        return repository.getCachedArticles();
     }
 }

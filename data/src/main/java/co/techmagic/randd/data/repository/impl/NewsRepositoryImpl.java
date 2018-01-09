@@ -64,7 +64,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
     }
 
     @Override
-    public Observable<List<ArticleApp>> getEverythingInRangeFromDb() {
+    public Observable<List<ArticleApp>> getCachedArticles() {
         return Observable.create(new ObservableOnSubscribe<List<ArticleApp>>() {
             @Override
             public void subscribe(ObservableEmitter<List<ArticleApp>> emitter) {
@@ -82,9 +82,9 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
 
     @Override
     public Observable<Void> saveEverythingInRangeToDb(final List<ArticleApp> articles) {
-        Observable<Void> deletePrevArticles = deleteAllArticles();
+      //  Observable<Void> deletePrevArticles = deleteAllArticles();
 
-        Observable<Void> saveNewArticles = Observable.create(new ObservableOnSubscribe<Void>() {
+        return Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
             public void subscribe(ObservableEmitter<Void> emitter) {
                 List<ArticleEntity> entities = mapper.mapAppEntities(articles);
@@ -98,7 +98,7 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
             }
         });
 
-        return Observable.concat(deletePrevArticles, saveNewArticles);
+       // return Observable.concat(deletePrevArticles, saveNewArticles);
     }
 
     @Override
