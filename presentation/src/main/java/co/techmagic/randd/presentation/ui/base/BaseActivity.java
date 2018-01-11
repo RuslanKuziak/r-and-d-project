@@ -1,5 +1,6 @@
 package co.techmagic.randd.presentation.ui.base;
 
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import co.techmagic.randd.R;
-import co.techmagic.randd.presentation.RandDApplication;
 import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 
 /**
@@ -27,11 +27,26 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
 
     protected abstract boolean withToolbar();
 
+    private ConnectivityBroadcastReceiver receiver = new ConnectivityBroadcastReceiver();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RandDApplication.getInstance().setConnectivityListener(this);
+       // RandDApplication.getInstance().setConnectivityListener(this)
+        receiver.setConnectivityReceiverListener(this);
         initViewModel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterConnectivityBroadcastReceiver();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerConnectivityBroadcastReceiver();
     }
 
     @Override
@@ -82,5 +97,13 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
                 showSnackMessage(findViewById(R.id.base_container), "Connection error", Color.RED);
                 break;
         }
+    }
+
+    private void registerConnectivityBroadcastReceiver() {
+        registerReceiver(receiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+    }
+
+    private void unregisterConnectivityBroadcastReceiver() {
+        unregisterReceiver(receiver);
     }
 }

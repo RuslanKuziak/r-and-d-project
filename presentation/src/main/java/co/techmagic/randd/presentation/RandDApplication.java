@@ -8,7 +8,6 @@ import co.techmagic.randd.data.db.AppDatabase;
 import co.techmagic.randd.data.network.NetworkManager;
 import co.techmagic.randd.data.network.client.ApiClient;
 import co.techmagic.randd.data.util.SharedPreferencesUtil;
-import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 
 /**
  * Created by ruslankuziak on 12/20/17.
@@ -16,14 +15,12 @@ import co.techmagic.randd.presentation.broadcast.ConnectivityBroadcastReceiver;
 
 public class RandDApplication extends Application {
 
-    private static RandDApplication instance;
     private int activeActivitiesCount = 0;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        instance = this;
         AppDatabase.getAppDatabase(this);
         SharedPreferencesUtil.init(this);
         NetworkManager.init(this);
@@ -65,17 +62,8 @@ public class RandDApplication extends Application {
                 activeActivitiesCount--;
                 if (activeActivitiesCount == 0 && !activity.isChangingConfigurations()) {
                     activeActivitiesCount = 0;
-                   // ApiClient.release();
                 }
             }
         });
-    }
-
-    public static RandDApplication getInstance() {
-        return instance;
-    }
-
-    public void setConnectivityListener(ConnectivityBroadcastReceiver.ConnectivityReceiverListener connectivityListener) {
-        ConnectivityBroadcastReceiver.connectivityReceiverListener = connectivityListener;
     }
 }

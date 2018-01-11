@@ -12,14 +12,24 @@ import co.techmagic.randd.data.network.NetworkManager;
 
 public class ConnectivityBroadcastReceiver extends BroadcastReceiver {
 
-    public static ConnectivityReceiverListener connectivityReceiverListener;
+    private ConnectivityReceiverListener connectivityReceiverListener;
 
     public ConnectivityBroadcastReceiver() {
         super();
     }
 
+    public void setConnectivityReceiverListener(ConnectivityReceiverListener connectivityReceiverListener) {
+        this.connectivityReceiverListener = connectivityReceiverListener;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Current broadcast is registered as Sticky Broadcast, so we need to skip initial
+        // We want to ignore the current state, just only to process state changes
+        if (isInitialStickyBroadcast()) {
+            return;
+        }
+
         boolean isConnected = NetworkManager.get().isNetworkAvailable();
 
         if (connectivityReceiverListener != null) {
