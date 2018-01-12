@@ -32,7 +32,6 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // RandDApplication.getInstance().setConnectivityListener(this)
         receiver.setConnectivityReceiverListener(this);
         initViewModel();
     }
@@ -49,8 +48,7 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
         registerConnectivityBroadcastReceiver();
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
+    public void setContentViewIntoRoot(int layoutResID) {
         LayoutInflater inflater = getLayoutInflater();
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_base, null);
         inflater.inflate(layoutResID, rootView, true);
@@ -76,7 +74,7 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
     }
 
     protected Toolbar getToolbar() {
-        return findViewById(R.id.toolbar);
+        return findViewById(R.id.toolbar_base);
     }
 
     protected void showSnackMessage(@NonNull View rootView, @NonNull String message, int color) {

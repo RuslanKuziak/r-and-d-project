@@ -44,7 +44,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_articles);
+        setContentViewIntoRoot(R.layout.activity_articles);
         articlesViewModel = initViewModel();
         initUi();
     }

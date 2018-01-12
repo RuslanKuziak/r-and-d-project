@@ -35,7 +35,7 @@ public class AuthorizationActivity extends BaseActivity<Void> {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authorization);
+        setContentViewIntoRoot(R.layout.activity_authorization);
         initUi();
     }
 
