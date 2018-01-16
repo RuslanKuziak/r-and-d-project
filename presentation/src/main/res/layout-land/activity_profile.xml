@@ -24,6 +24,11 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/image_android_oreo" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_dimmed" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import co.techmagic.randd.data.db.AppDatabase;
 import co.techmagic.randd.data.network.NetworkManager;
 import co.techmagic.randd.data.network.client.ApiClient;
@@ -25,6 +27,7 @@ public class RandDApplication extends Application {
         SharedPreferencesUtil.init(this);
         NetworkManager.init(this);
         ApiClient.init();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override

@@ -85,14 +85,18 @@ public abstract class BaseActivity<VIEWMODEL> extends AppCompatActivity implemen
         snackbar.show();
     }
 
+    protected void showSnackMessage(@NonNull View rootView, @NonNull String message) {
+        showSnackMessage(rootView, message, Color.WHITE);
+    }
+
     private void handleConnectivityStates(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
         switch (connectionState) {
             case CONNECTED:
-                showSnackMessage(findViewById(R.id.base_container), "Connected to the network", Color.WHITE);
+                showSnackMessage(findViewById(android.R.id.content), "Connected to the network", Color.WHITE);
                 break;
 
             case NO_CONNECTION:
-                showSnackMessage(findViewById(R.id.base_container), "Connection error", Color.RED);
+                showSnackMessage(findViewById(android.R.id.content), "Connection error", Color.RED);
                 break;
         }
     }
