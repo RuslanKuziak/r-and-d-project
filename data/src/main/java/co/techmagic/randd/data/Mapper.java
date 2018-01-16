@@ -74,6 +74,7 @@ public class Mapper {
         articleApp.setDescription(entity.getDescription());
         articleApp.setUrl(entity.getUrl());
         articleApp.setUrlToImage(entity.getUrlToImage());
+        articleApp.setBookmarked(entity.isBookmarked());
         return articleApp;
     }
 

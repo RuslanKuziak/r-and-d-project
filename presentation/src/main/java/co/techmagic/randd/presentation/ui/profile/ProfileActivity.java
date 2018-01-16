@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,7 @@ public class ProfileActivity extends BaseActivity<ProfileViewModel> {
 
     EditText etFirstName;
     EditText etLastName;
+    TextView tvFavorites;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ProfileActivity.class));

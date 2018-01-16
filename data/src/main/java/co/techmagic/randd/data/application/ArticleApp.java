@@ -13,6 +13,7 @@ public class ArticleApp {
     private String urlToImage;
     private String date;
     private SourceApp source;
+    private boolean bookmarked;
 
     public String getAuthor() {
         return author;
@@ -68,5 +69,13 @@ public class ArticleApp {
 
     public void setSource(SourceApp source) {
         this.source = source;
+    }
+
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
     }
 }

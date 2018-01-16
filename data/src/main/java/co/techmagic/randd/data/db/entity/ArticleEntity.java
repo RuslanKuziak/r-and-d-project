@@ -38,6 +38,9 @@ public class ArticleEntity {
     @ColumnInfo(name = "date")
     private String date;
 
+    @ColumnInfo(name = "bookmarked")
+    private boolean bookmarked;
+
     public int getUid() {
         return uid;
     }
@@ -100,5 +103,13 @@ public class ArticleEntity {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
     }
 }

@@ -29,7 +29,7 @@ import co.techmagic.randd.presentation.ui.auth.AuthorizationActivity;
 import co.techmagic.randd.presentation.ui.base.BaseActivity;
 import co.techmagic.randd.presentation.ui.profile.ProfileActivity;
 
-public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
+public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implements ArticlesAdapter.OnBookmarkClickListener {
 
     private ProgressBar progressBar;
     private TextView tvNoArticles;
@@ -71,6 +71,19 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
         }
     }
 
+    @Override
+    public void onBookmarkClicked(@NonNull ArticleApp item, int position) {
+        if (item.isBookmarked()) { // TODO write into DB
+            item.setBookmarked(false);
+            adapter.notifyItemChanged(position);
+            showSnackMessage(findViewById(R.id.root_view), "Removed from bookmarks");
+        } else {
+            item.setBookmarked(true);
+            adapter.notifyItemChanged(position);
+            showSnackMessage(findViewById(R.id.root_view), "Bookmarked!");
+        }
+    }
+
     private void signOut() {
         AuthUI.getInstance()
                 .signOut(ListArticlesActivity.this)
@@ -101,7 +114,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> {
         progressBar = findViewById(R.id.articles_progress_bar);
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new ArticlesAdapter();
+        adapter = new ArticlesAdapter(this);
         recyclerView.setAdapter(adapter);
     }
 
