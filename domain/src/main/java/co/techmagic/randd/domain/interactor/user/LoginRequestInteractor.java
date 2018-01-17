@@ -2,7 +2,7 @@ package co.techmagic.randd.domain.interactor.user;
 
 import co.techmagic.randd.data.application.UserApp;
 import co.techmagic.randd.data.network.exception.NoNetworkException;
-import co.techmagic.randd.data.network.request.LoginRequest;
+import co.techmagic.randd.data.request.LoginRequest;
 import co.techmagic.randd.data.repository.impl.UserRepositoryImpl;
 import co.techmagic.randd.domain.interactor.BaseDataInteractor;
 import io.reactivex.Observable;

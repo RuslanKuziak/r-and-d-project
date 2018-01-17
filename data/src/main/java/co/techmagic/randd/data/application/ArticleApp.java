@@ -6,6 +6,7 @@ package co.techmagic.randd.data.application;
 
 public class ArticleApp {
 
+    private String id;
     private String author;
     private String title;
     private String description;
@@ -14,6 +15,14 @@ public class ArticleApp {
     private String date;
     private SourceApp source;
     private boolean bookmarked;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getAuthor() {
         return author;

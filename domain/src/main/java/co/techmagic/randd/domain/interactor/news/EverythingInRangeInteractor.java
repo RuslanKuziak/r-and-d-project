@@ -4,7 +4,7 @@ import java.util.List;
 
 import co.techmagic.randd.data.application.ArticleApp;
 import co.techmagic.randd.data.network.exception.NoNetworkException;
-import co.techmagic.randd.data.network.request.EverythingInRangeRequest;
+import co.techmagic.randd.data.request.EverythingInRangeRequest;
 import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
 import co.techmagic.randd.domain.interactor.BaseDataInteractor;
 import io.reactivex.Observable;

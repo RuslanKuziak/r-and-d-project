@@ -16,4 +16,6 @@ public interface DbManager {
     List<ArticleEntity> getArticles() throws SQLException;
 
     void deleteAllFromTable() throws SQLException;
+
+    void bookmarkArticle(ArticleEntity articleEntity) throws SQLException;
 }

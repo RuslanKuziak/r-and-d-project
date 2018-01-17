@@ -37,19 +37,6 @@ public class Mapper {
     }
 
     @NonNull
-    private ArticleApp mapArticleResponseEntity(ArticleInfo info) {
-        ArticleApp articleApp = new ArticleApp();
-        articleApp.setSource(mapSource(info));
-        articleApp.setTitle(info.getTitle());
-        articleApp.setAuthor(info.getAuthor());
-        articleApp.setDate(info.getDate());
-        articleApp.setDescription(info.getDescription());
-        articleApp.setUrl(info.getUrl());
-        articleApp.setUrlToImage(info.getUrlToImage());
-        return articleApp;
-    }
-
-    @NonNull
     public List<ArticleApp> mapArticleDbEntities(@Nullable List<ArticleEntity> entities) {
         List<ArticleApp> articles = new ArrayList<>();
         if (entities == null || entities.isEmpty()) {
@@ -64,9 +51,41 @@ public class Mapper {
         return articles;
     }
 
+    @Nullable
+    public List<ArticleEntity> mapAppEntities(List<ArticleApp> articles) {
+        if (articles == null || articles.isEmpty()) {
+            return null;
+        }
+
+        List<ArticleEntity> entities = new ArrayList<>();
+
+        for (ArticleApp article : articles) {
+            ArticleEntity entity = mapAppToDbEntity(article);
+
+            entities.add(entity);
+        }
+
+        return entities;
+    }
+
+    @NonNull
+    public ArticleEntity mapAppToDbEntity(ArticleApp article) {
+        ArticleEntity entity = new ArticleEntity();
+        entity.setAuthor(article.getAuthor());
+        entity.setDate(article.getDate());
+        entity.setDescription(article.getDescription());
+        entity.setTitle(article.getTitle());
+        entity.setUrl(article.getUrl());
+        entity.setUrlToImage(article.getUrlToImage());
+        entity.setSourceApp(article.getSource());
+        entity.setBookmarked(article.isBookmarked());
+        return entity;
+    }
+
     @NonNull
     private ArticleApp mapArticleDbEntity(ArticleEntity entity) {
         ArticleApp articleApp = new ArticleApp();
+        articleApp.setId(String.valueOf(entity.getUid())); // Generating id manually
         articleApp.setSource(mapDbSource(entity));
         articleApp.setTitle(entity.getTitle());
         articleApp.setAuthor(entity.getAuthor());
@@ -102,27 +121,17 @@ public class Mapper {
         return sourceApp;
     }
 
-    @Nullable
-    public List<ArticleEntity> mapAppEntities(List<ArticleApp> articles) {
-        if (articles == null || articles.isEmpty()) {
-            return null;
-        }
-
-        List<ArticleEntity> entities = new ArrayList<>();
-
-        for (ArticleApp article : articles) {
-            ArticleEntity entity = new ArticleEntity();
-            entity.setAuthor(article.getAuthor());
-            entity.setDate(article.getDate());
-            entity.setDescription(article.getDescription());
-            entity.setTitle(article.getTitle());
-            entity.setUrl(article.getUrl());
-            entity.setUrlToImage(article.getUrlToImage());
-            entity.setSourceApp(article.getSource());
-
-            entities.add(entity);
-        }
-
-        return entities;
+    @NonNull
+    private ArticleApp mapArticleResponseEntity(ArticleInfo info) {
+        ArticleApp articleApp = new ArticleApp();
+       // articleApp.setId(String.valueOf(System.currentTimeMillis())); // Generating id manually
+        articleApp.setSource(mapSource(info));
+        articleApp.setTitle(info.getTitle());
+        articleApp.setAuthor(info.getAuthor());
+        articleApp.setDate(info.getDate());
+        articleApp.setDescription(info.getDescription());
+        articleApp.setUrl(info.getUrl());
+        articleApp.setUrlToImage(info.getUrlToImage());
+        return articleApp;
     }
 }

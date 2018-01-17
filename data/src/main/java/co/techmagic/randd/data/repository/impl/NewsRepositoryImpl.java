@@ -50,15 +50,22 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                 });
     }
 
+    /**
+     * Getting articles from API and saving them into DB
+     * */
+
     @Override
     public Observable<List<ArticleApp>> getEverythingInRange(String query, String from, String to) {
         return service.getEverythingInRange(query, from, to, API_KEY)
                 .map(new Function<ArticleResponse, List<ArticleApp>>() {
                     @Override
                     public List<ArticleApp> apply(ArticleResponse articleResponse) {
-                        List articles = mapper.mapArticleResponseEntities(articleResponse);
-                        saveEverythingInRangeToDb(articles);
-                        return articles;
+                        return mapper.mapArticleResponseEntities(articleResponse);
+                    }
+                }).flatMap(new Function<List<ArticleApp>, Observable<List<ArticleApp>>>() {
+                    @Override
+                    public Observable<List<ArticleApp>> apply(List<ArticleApp> articleApps) {
+                        return saveEverythingInRangeToDb(articleApps);
                     }
                 });
     }
@@ -81,15 +88,14 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
     }
 
     @Override
-    public Observable<Void> saveEverythingInRangeToDb(final List<ArticleApp> articles) {
-      //  Observable<Void> deletePrevArticles = deleteAllArticles();
-
-        return Observable.create(new ObservableOnSubscribe<Void>() {
+    public Observable<List<ArticleApp>> saveEverythingInRangeToDb(final List<ArticleApp> articles) {
+        return Observable.create(new ObservableOnSubscribe<List<ArticleApp>>() {
             @Override
-            public void subscribe(ObservableEmitter<Void> emitter) {
+            public void subscribe(ObservableEmitter<List<ArticleApp>> emitter) {
                 List<ArticleEntity> entities = mapper.mapAppEntities(articles);
                 try {
                     dbManager.insertArticles(entities);
+                    emitter.onNext(articles);
                     emitter.onComplete();
                 } catch (SQLException exception) {
                     emitter.onError(new DataException());
@@ -97,8 +103,6 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                 }
             }
         });
-
-       // return Observable.concat(deletePrevArticles, saveNewArticles);
     }
 
     @Override
@@ -111,6 +115,23 @@ public class NewsRepositoryImpl extends BaseRepository implements NewsRepository
                     emitter.onComplete();
                 } catch (SQLException exception) {
                     emitter.onError(new DataException());
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Void> bookmarkArticle(final ArticleApp articleApp) {
+        return Observable.create(new ObservableOnSubscribe<Void>() {
+            @Override
+            public void subscribe(ObservableEmitter<Void> emitter) {
+                try {
+                    ArticleEntity entity = mapper.mapAppToDbEntity(articleApp);
+                    dbManager.bookmarkArticle(entity);
+                    emitter.onComplete();
+                } catch (SQLException e) {
+                    emitter.onError(new DataException());
+                    e.printStackTrace();
                 }
             }
         });

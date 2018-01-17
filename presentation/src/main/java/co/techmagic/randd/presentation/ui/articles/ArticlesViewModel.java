@@ -5,9 +5,11 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import co.techmagic.randd.data.application.ArticleApp;
-import co.techmagic.randd.data.network.request.EverythingInRangeRequest;
-import co.techmagic.randd.data.network.request.GetTopHeadlinesRequest;
+import co.techmagic.randd.data.request.ArticleBookmarkRequest;
+import co.techmagic.randd.data.request.EverythingInRangeRequest;
+import co.techmagic.randd.data.request.GetTopHeadlinesRequest;
 import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
+import co.techmagic.randd.domain.interactor.news.ArticleBookmarkInteractor;
 import co.techmagic.randd.domain.interactor.news.EverythingInRangeInteractor;
 import co.techmagic.randd.domain.interactor.news.GetCachedArticlesInteractor;
 import co.techmagic.randd.domain.interactor.news.TopHeadlinesInteractor;
@@ -23,14 +25,17 @@ public class ArticlesViewModel extends BaseViewModel {
     private TopHeadlinesInteractor newsInteractor;
     private EverythingInRangeInteractor inRangeInteractor;
     private GetCachedArticlesInteractor getArticlesDbInteractor;
+    private ArticleBookmarkInteractor articleBookmarkInteractor;
 
-    MutableLiveData<List<ArticleApp>> articles = new MutableLiveData<>();
+    MutableLiveData<List<ArticleApp>> articlesData = new MutableLiveData<>();
+    MutableLiveData<ArticleApp> articleData = new MutableLiveData<>();
 
     public ArticlesViewModel() {
         final NewsRepositoryImpl repository = new NewsRepositoryImpl();
         newsInteractor = new TopHeadlinesInteractor(repository);
         inRangeInteractor = new EverythingInRangeInteractor(repository);
         getArticlesDbInteractor = new GetCachedArticlesInteractor(repository);
+        articleBookmarkInteractor = new ArticleBookmarkInteractor(repository);
         getEverythingInRange();
     }
 
@@ -42,7 +47,7 @@ public class ArticlesViewModel extends BaseViewModel {
             public void onNext(List<ArticleApp> articleApps) {
                 super.onNext(articleApps);
                 hideProgress();
-                articles.postValue(articleApps);
+                articlesData.postValue(articleApps);
             }
 
             @Override
@@ -55,13 +60,13 @@ public class ArticlesViewModel extends BaseViewModel {
 
     public void getEverythingInRange() {
         showProgress();
-        EverythingInRangeRequest request = new EverythingInRangeRequest("google", "2017-12-01", "2017-12-27");
+        EverythingInRangeRequest request = new EverythingInRangeRequest("google", "2017-12-01", "2018-01-17");
         inRangeInteractor.execute(request, new BaseDisposableObserver<List<ArticleApp>>(networkErrorLiveData) {
             @Override
             public void onNext(List<ArticleApp> articleApps) {
                 super.onNext(articleApps);
                 hideProgress();
-                articles.postValue(articleApps);
+                articlesData.postValue(articleApps);
             }
 
             @Override
@@ -77,12 +82,29 @@ public class ArticlesViewModel extends BaseViewModel {
             @Override
             public void onNext(List<ArticleApp> articleApps) {
                 super.onNext(articleApps);
-                articles.postValue(articleApps);
+                articlesData.postValue(articleApps);
             }
 
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+            }
+        });
+    }
+
+    public void bookmarkArticle(final ArticleApp articleApp) {
+        ArticleBookmarkRequest request = new ArticleBookmarkRequest(articleApp);
+        articleBookmarkInteractor.execute(request, new BaseDisposableObserver<Void>() {
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                articleData.postValue(articleApp);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                articleData.postValue(null);
             }
         });
     }

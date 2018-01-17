@@ -27,4 +27,7 @@ public interface ArticleDao {
 
     @Delete
     void delete(ArticleEntity article);
+
+    @Query("UPDATE article SET bookmarked = :isBookmarked WHERE uid = :articleId")
+    void bookmarkArticle(int articleId, boolean isBookmarked);
 }

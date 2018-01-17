@@ -17,7 +17,9 @@ public interface NewsRepository {
     
     Observable<List<ArticleApp>> getCachedArticles();
 
-    Observable<Void> saveEverythingInRangeToDb(List<ArticleApp> articles);
+    Observable<List<ArticleApp>> saveEverythingInRangeToDb(List<ArticleApp> articles);
 
     Observable<Void> deleteAllArticles();
+
+    Observable<Void> bookmarkArticle(ArticleApp articleApp);
 }

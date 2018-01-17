@@ -34,7 +34,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
     private ProgressBar progressBar;
     private TextView tvNoArticles;
     private ArticlesAdapter adapter;
-    private ArticlesViewModel articlesViewModel;
+    private ArticlesViewModel viewModel;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ListArticlesActivity.class));
@@ -45,14 +45,15 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentViewIntoRoot(R.layout.activity_articles);
-        articlesViewModel = initViewModel();
+        viewModel = initViewModel();
         initUi();
     }
 
     @Override
     protected ArticlesViewModel initViewModel() {
         ArticlesViewModel viewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
-        viewModel.articles.observe(this, articlesObserver);
+        viewModel.articlesData.observe(this, articlesObserver);
+        viewModel.articleData.observe(this, articleObserver);
         viewModel.progressLiveData.observe(this, progressObserver);
         viewModel.networkErrorLiveData.observe(this, networkErrorsObserver);
         return viewModel;
@@ -67,20 +68,18 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
         super.onNetworkConnectionChanged(connectionState);
         if (connectionState == ConnectivityBroadcastReceiver.ConnectionStates.CONNECTED) {
-            articlesViewModel.getEverythingInRange();
+            viewModel.getEverythingInRange();
         }
     }
 
     @Override
     public void onBookmarkClicked(@NonNull ArticleApp item, int position) {
-        if (item.isBookmarked()) { // TODO write into DB
+        if (item.isBookmarked()) {
             item.setBookmarked(false);
-            adapter.notifyItemChanged(position);
-            showSnackMessage(findViewById(R.id.root_view), "Removed from bookmarks");
+            viewModel.bookmarkArticle(item);
         } else {
             item.setBookmarked(true);
-            adapter.notifyItemChanged(position);
-            showSnackMessage(findViewById(R.id.root_view), "Bookmarked!");
+            viewModel.bookmarkArticle(item);
         }
     }
 
@@ -130,6 +129,22 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
         }
     };
 
+    private Observer<ArticleApp> articleObserver = new Observer<ArticleApp>() {
+        @Override
+        public void onChanged(@Nullable ArticleApp articleApp) {
+            if (articleApp == null) {
+                showSnackMessage(findViewById(R.id.root_view), "Error with DB occurred");
+            } else {
+               // adapter.notifyItemChanged();
+                if (articleApp.isBookmarked()) {
+                    showSnackMessage(findViewById(R.id.root_view), "Bookmarked!");
+                } else {
+                    showSnackMessage(findViewById(R.id.root_view), "Removed from bookmarks");
+                }
+            }
+        }
+    };
+
     private Observer<Boolean> progressObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(@Nullable Boolean show) {
@@ -153,8 +168,8 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
                         break;
 
                     case CONNECTION_ERROR:
-                        showSnackMessage(findViewById(R.id.root_view),"Connection error", Color.RED);
-                        articlesViewModel.getCachedArticles();
+                        showSnackMessage(findViewById(R.id.root_view), "Connection error", Color.RED);
+                        viewModel.getCachedArticles();
                         break;
                 }
             }

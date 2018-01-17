@@ -3,7 +3,7 @@ package co.techmagic.randd.data.repository.impl;
 import co.techmagic.randd.data.application.UserApp;
 import co.techmagic.randd.data.network.client.ApiClient;
 import co.techmagic.randd.data.network.entity.LoginResponse;
-import co.techmagic.randd.data.network.request.LoginRequest;
+import co.techmagic.randd.data.request.LoginRequest;
 import co.techmagic.randd.data.network.service.UserService;
 import co.techmagic.randd.data.repository.BaseRepository;
 import co.techmagic.randd.data.repository.UserRepository;

@@ -32,4 +32,9 @@ public class DbManagerImpl implements DbManager {
     public void deleteAllFromTable() throws SQLException {
         appDatabase.articleDao().deleteFromTable();
     }
+
+    @Override
+    public void bookmarkArticle(ArticleEntity articleEntity) {
+        appDatabase.articleDao().bookmarkArticle(articleEntity.getUid(), articleEntity.isBookmarked());
+    }
 }
