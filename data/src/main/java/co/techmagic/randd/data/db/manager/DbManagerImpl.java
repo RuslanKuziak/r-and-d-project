@@ -35,6 +35,6 @@ public class DbManagerImpl implements DbManager {
 
     @Override
     public void bookmarkArticle(ArticleEntity articleEntity) {
-        appDatabase.articleDao().bookmarkArticle(articleEntity.getUid(), articleEntity.isBookmarked());
+        appDatabase.articleDao().bookmarkArticle(articleEntity.getUrl(), articleEntity.isBookmarked());
     }
 }

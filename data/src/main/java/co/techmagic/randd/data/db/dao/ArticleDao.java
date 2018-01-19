@@ -3,6 +3,7 @@ package co.techmagic.randd.data.db.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -22,12 +23,16 @@ public interface ArticleDao {
     @Query("DELETE from article")
     void deleteFromTable();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     void insertArticles(ArticleEntity... articles);
 
     @Delete
     void delete(ArticleEntity article);
 
-    @Query("UPDATE article SET bookmarked = :isBookmarked WHERE uid = :articleId")
-    void bookmarkArticle(int articleId, boolean isBookmarked);
+    /**
+        @param url used here instead of identifier of the object
+     */
+
+    @Query("UPDATE article SET bookmarked = :isBookmarked WHERE url = :url")
+    void bookmarkArticle(String url, boolean isBookmarked);
 }

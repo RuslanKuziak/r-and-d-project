@@ -35,6 +35,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
     private TextView tvNoArticles;
     private ArticlesAdapter adapter;
     private ArticlesViewModel viewModel;
+    public List<ArticleApp> articles;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ListArticlesActivity.class));
@@ -52,7 +53,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
     @Override
     protected ArticlesViewModel initViewModel() {
         ArticlesViewModel viewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
-        viewModel.articlesData.observe(this, articlesObserver);
+        viewModel.articlesData.observe(this, articlesListObserver);
         viewModel.articleData.observe(this, articleObserver);
         viewModel.progressLiveData.observe(this, progressObserver);
         viewModel.networkErrorLiveData.observe(this, networkErrorsObserver);
@@ -117,9 +118,10 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
         recyclerView.setAdapter(adapter);
     }
 
-    private Observer<List<ArticleApp>> articlesObserver = new Observer<List<ArticleApp>>() {
+    private Observer<List<ArticleApp>> articlesListObserver = new Observer<List<ArticleApp>>() {
         @Override
         public void onChanged(@Nullable List<ArticleApp> articleApps) {
+            articles = articleApps;
             adapter.refresh(articleApps);
             if (articleApps == null || articleApps.isEmpty()) {
                 tvNoArticles.setVisibility(View.VISIBLE);
@@ -135,7 +137,11 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
             if (articleApp == null) {
                 showSnackMessage(findViewById(R.id.root_view), "Error with DB occurred");
             } else {
-               // adapter.notifyItemChanged();
+                int position = articles.indexOf(articleApp);
+                if (position != -1) {
+                    adapter.notifyItemChanged(position);
+                }
+
                 if (articleApp.isBookmarked()) {
                     showSnackMessage(findViewById(R.id.root_view), "Bookmarked!");
                 } else {

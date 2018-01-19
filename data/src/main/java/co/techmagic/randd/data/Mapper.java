@@ -27,8 +27,8 @@ public class Mapper {
 
         List<ArticleInfo> articleInfos = articleResponse.getArticleInfos();
         if (articleInfos != null) {
-            for (ArticleInfo info : articleInfos) {
-                ArticleApp articleApp = mapArticleResponseEntity(info);
+            for (int i = 0; i < articleInfos.size(); i++) {
+                ArticleApp articleApp = mapArticleResponseEntity(articleInfos.get(i), i);
                 articles.add(articleApp);
             }
         }
@@ -71,6 +71,7 @@ public class Mapper {
     @NonNull
     public ArticleEntity mapAppToDbEntity(ArticleApp article) {
         ArticleEntity entity = new ArticleEntity();
+       // entity.setUid(article.getId());
         entity.setAuthor(article.getAuthor());
         entity.setDate(article.getDate());
         entity.setDescription(article.getDescription());
@@ -85,7 +86,7 @@ public class Mapper {
     @NonNull
     private ArticleApp mapArticleDbEntity(ArticleEntity entity) {
         ArticleApp articleApp = new ArticleApp();
-        articleApp.setId(String.valueOf(entity.getUid())); // Generating id manually
+        articleApp.setId(entity.getUid()); // Id generated manually
         articleApp.setSource(mapDbSource(entity));
         articleApp.setTitle(entity.getTitle());
         articleApp.setAuthor(entity.getAuthor());
@@ -121,10 +122,17 @@ public class Mapper {
         return sourceApp;
     }
 
+    /**
+     * Articles from API response don't have an id's. So, let's generate them manually
+     *
+     * @param info     - object to map
+     * @param position - id of the item
+     */
+
     @NonNull
-    private ArticleApp mapArticleResponseEntity(ArticleInfo info) {
+    private ArticleApp mapArticleResponseEntity(ArticleInfo info, int position) {
         ArticleApp articleApp = new ArticleApp();
-       // articleApp.setId(String.valueOf(System.currentTimeMillis())); // Generating id manually
+        articleApp.setId(position);
         articleApp.setSource(mapSource(info));
         articleApp.setTitle(info.getTitle());
         articleApp.setAuthor(info.getAuthor());
