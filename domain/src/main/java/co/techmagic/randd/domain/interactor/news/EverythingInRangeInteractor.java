@@ -3,9 +3,8 @@ package co.techmagic.randd.domain.interactor.news;
 import java.util.List;
 
 import co.techmagic.randd.data.application.ArticleApp;
-import co.techmagic.randd.data.network.exception.NoNetworkException;
-import co.techmagic.randd.data.request.EverythingInRangeRequest;
 import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
+import co.techmagic.randd.data.request.EverythingInRangeRequest;
 import co.techmagic.randd.domain.interactor.BaseDataInteractor;
 import io.reactivex.Observable;
 
@@ -25,6 +24,6 @@ public class EverythingInRangeInteractor extends BaseDataInteractor<EverythingIn
             return repository.getEverythingInRange(requestData.getQuery(), requestData.getFrom(), requestData.getTo());
         }
 
-        return Observable.error(new NoNetworkException());
+        return repository.getCachedArticles();
     }
 }

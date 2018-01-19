@@ -31,11 +31,13 @@ import co.techmagic.randd.presentation.ui.profile.ProfileActivity;
 
 public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implements ArticlesAdapter.OnBookmarkClickListener {
 
+    private ArticlesViewModel viewModel;
+
     private ProgressBar progressBar;
     private TextView tvNoArticles;
+
     private ArticlesAdapter adapter;
-    private ArticlesViewModel viewModel;
-    public List<ArticleApp> articles;
+    private List<ArticleApp> articles;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, ListArticlesActivity.class));
@@ -69,7 +71,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
     public void onNetworkConnectionChanged(ConnectivityBroadcastReceiver.ConnectionStates connectionState) {
         super.onNetworkConnectionChanged(connectionState);
         if (connectionState == ConnectivityBroadcastReceiver.ConnectionStates.CONNECTED) {
-            viewModel.getEverythingInRange();
+            viewModel.getArticlesInRange();
         }
     }
 
@@ -175,7 +177,7 @@ public class ListArticlesActivity extends BaseActivity<ArticlesViewModel> implem
 
                     case CONNECTION_ERROR:
                         showSnackMessage(findViewById(R.id.root_view), "Connection error", Color.RED);
-                        viewModel.getCachedArticles();
+                        viewModel.getArticlesInRange();
                         break;
                 }
             }

@@ -132,7 +132,7 @@ public class Mapper {
     @NonNull
     private ArticleApp mapArticleResponseEntity(ArticleInfo info, int position) {
         ArticleApp articleApp = new ArticleApp();
-        articleApp.setId(position);
+       // articleApp.setId(position);
         articleApp.setSource(mapSource(info));
         articleApp.setTitle(info.getTitle());
         articleApp.setAuthor(info.getAuthor());

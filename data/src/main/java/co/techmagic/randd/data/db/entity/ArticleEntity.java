@@ -4,7 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 import co.techmagic.randd.data.application.SourceApp;
 
@@ -15,11 +14,10 @@ import co.techmagic.randd.data.application.SourceApp;
 @Entity (tableName = "article")
 public class ArticleEntity {
 
-   // @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "uid")
+    @PrimaryKey(autoGenerate = true)
     private int uid;
 
-    @PrimaryKey
-    @NonNull
     @ColumnInfo(name = "url")
     private String url;
 

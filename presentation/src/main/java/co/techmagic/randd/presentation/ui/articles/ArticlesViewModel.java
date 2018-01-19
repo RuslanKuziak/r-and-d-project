@@ -5,10 +5,9 @@ import android.arch.lifecycle.MutableLiveData;
 import java.util.List;
 
 import co.techmagic.randd.data.application.ArticleApp;
+import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
 import co.techmagic.randd.data.request.ArticleBookmarkRequest;
 import co.techmagic.randd.data.request.EverythingInRangeRequest;
-import co.techmagic.randd.data.request.GetTopHeadlinesRequest;
-import co.techmagic.randd.data.repository.impl.NewsRepositoryImpl;
 import co.techmagic.randd.domain.interactor.news.ArticleBookmarkInteractor;
 import co.techmagic.randd.domain.interactor.news.EverythingInRangeInteractor;
 import co.techmagic.randd.domain.interactor.news.GetCachedArticlesInteractor;
@@ -36,29 +35,10 @@ public class ArticlesViewModel extends BaseViewModel {
         inRangeInteractor = new EverythingInRangeInteractor(repository);
         getArticlesDbInteractor = new GetCachedArticlesInteractor(repository);
         articleBookmarkInteractor = new ArticleBookmarkInteractor(repository);
-        getEverythingInRange();
+        getArticlesInRange();
     }
 
-    public void getTopHeadlines() {
-        showProgress();
-        GetTopHeadlinesRequest request = new GetTopHeadlinesRequest("google-news");
-        newsInteractor.execute(request, new BaseDisposableObserver<List<ArticleApp>>(networkErrorLiveData) {
-            @Override
-            public void onNext(List<ArticleApp> articleApps) {
-                super.onNext(articleApps);
-                hideProgress();
-                articlesData.postValue(articleApps);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                hideProgress();
-            }
-        });
-    }
-
-    public void getEverythingInRange() {
+    public void getArticlesInRange() {
         showProgress();
         EverythingInRangeRequest request = new EverythingInRangeRequest("google", "2017-12-01", "2018-01-17");
         inRangeInteractor.execute(request, new BaseDisposableObserver<List<ArticleApp>>(networkErrorLiveData) {
@@ -73,21 +53,6 @@ public class ArticlesViewModel extends BaseViewModel {
             public void onError(Throwable e) {
                 super.onError(e);
                 hideProgress();
-            }
-        });
-    }
-
-    public void getCachedArticles() {
-        getArticlesDbInteractor.execute(new BaseDisposableObserver<List<ArticleApp>>() {
-            @Override
-            public void onNext(List<ArticleApp> articleApps) {
-                super.onNext(articleApps);
-                articlesData.postValue(articleApps);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
             }
         });
     }

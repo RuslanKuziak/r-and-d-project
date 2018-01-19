@@ -23,7 +23,7 @@ public interface ArticleDao {
     @Query("DELETE from article")
     void deleteFromTable();
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertArticles(ArticleEntity... articles);
 
     @Delete
