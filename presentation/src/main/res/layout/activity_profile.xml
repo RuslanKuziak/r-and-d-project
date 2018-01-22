@@ -123,7 +123,7 @@
                     android:layout_height="48dp"
                     android:layout_marginStart="8dp"
                     android:gravity="center_vertical"
-                    android:text="Favorites"
+                    android:text="Bookmarks"
                     android:textStyle="bold" />
 
                 <ImageView
