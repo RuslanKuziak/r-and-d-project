@@ -75,17 +75,29 @@ public class AuthorizationActivity extends BaseActivity<Void> {
         }
     }
 
+    /**
+     * setTheme() and setLogo() here used to customize the UI. But it only works when new Activity pops up!
+     * */
+
     private void signInWithGoogle() {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                        .setTheme(R.style.AuthTheme)
+                        .setLogo(R.drawable.ic_google_sign_in)
                         .build(),
                 RC_GOOGLE_SIGN_IN);
     }
 
     private void signInWithEmail() {
-        startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().build(), RC_EMAIL_SIGN_IN);
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setTheme(R.style.AuthTheme)
+                        .setLogo(R.drawable.ic_google_sign_in)
+                        .build(),
+                RC_EMAIL_SIGN_IN);
     }
 
     private void signInWithFacebook() {
@@ -93,6 +105,8 @@ public class AuthorizationActivity extends BaseActivity<Void> {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build()))
+                        .setTheme(R.style.AuthTheme)
+                        .setLogo(R.drawable.ic_fb_logo)
                         .build(),
                 RC_FACEBOOK_SIGN_IN);
     }
