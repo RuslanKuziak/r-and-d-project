@@ -12,6 +12,8 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName appVersion
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -72,6 +74,11 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation "com.android.support.constraint:constraint-layout:1.0.2"
 
+    /* Tests */
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
     /* Architecture Components */
     implementation "android.arch.lifecycle:runtime:1.0.3"
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
@@ -86,9 +93,6 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-auth:11.4.2' // do not remove to avoid weird issue with dex conflict
     implementation 'com.facebook.android:facebook-login:[4,5)'
-
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

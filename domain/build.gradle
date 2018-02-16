@@ -40,6 +40,4 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':data')
-
-    implementation "com.android.support:appcompat-v7:27.0.2"
 }
